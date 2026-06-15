@@ -50,6 +50,8 @@ body{
   text-rendering:optimizeLegibility;
   overflow-x:hidden;
   line-height:1.5;
+  word-break:keep-all;
+  overflow-wrap:break-word;
 }
 img{max-width:100%;display:block}
 button{font-family:inherit;cursor:pointer;border:none;color:inherit}
@@ -781,6 +783,224 @@ footer .meta .made{color:var(--brand)}
   footer .inner{grid-template-columns:1fr 1fr;gap:24px}
   footer .meta{flex-direction:column;gap:8px;text-align:center}
 }
+
+/* =========================================================
+   MOBILE REFINEMENTS — improved layout, carousel, sticky CTA
+   ========================================================= */
+@media (max-width:768px){
+
+  /* hero copy: scale up min size for impact on mobile, tighten line-height */
+  .hero h1{font-size:clamp(56px,11vw,84px);line-height:1.0}
+  .hero .lede{font-size:16px}
+
+  /* form field stack: email above, region select below — bigger tap area */
+  form.lead .field{
+    flex-wrap:wrap;
+    padding:6px 6px 6px 16px;
+    align-items:stretch;
+  }
+  form.lead .field svg{align-self:center}
+  form.lead .field input{
+    flex:1 1 100%;
+    min-width:0;
+    padding:14px 0;
+  }
+  form.lead .field select{
+    flex:1 1 100%;
+    border-left:none;
+    border-top:1px dashed var(--line);
+    margin-top:4px;
+    padding:12px 22px 12px 4px;
+    background-position:right 4px center;
+  }
+  form.lead .submit{font-size:15px;padding:16px 20px}
+
+  /* nav CTA bigger tap target on mobile */
+  nav.top .cta{padding:11px 16px;font-size:13px;min-height:42px}
+
+  /* magnet card breathing room */
+  .magnet{margin-top:28px}
+  .magnet .head{flex-direction:column;align-items:flex-start;gap:10px}
+  .magnet .head .badge{align-self:flex-start}
+
+  /* under-form privacy line — vertical on narrow */
+  .under-form{align-items:flex-start;font-size:11.5px;line-height:1.55}
+
+  /* hero visual: compact + better proportions */
+  .hero-visual{height:380px;margin-top:8px}
+  .hero-visual .stage{border-radius:24px;box-shadow:8px 8px 0 var(--ink)}
+  .hero-visual .live-chip{top:16px;left:16px;font-size:10px;padding:6px 10px;letter-spacing:.14em}
+  .hero-visual .fare{
+    width:auto;left:16px;right:16px;bottom:16px;padding:14px 16px;
+    border-radius:14px;box-shadow:4px 4px 0 var(--brand);
+  }
+
+  /* stats strip — keep 2x2 but better rhythm */
+  .stats-strip .row{padding:28px 18px;gap:22px 18px}
+  .stats-strip .stat{padding-left:14px}
+  .stats-strip .stat .v{font-size:32px;margin-top:4px}
+  .stats-strip .stat .l{font-size:10px;letter-spacing:.14em}
+  .stats-strip .stat .s{font-size:11.5px}
+
+  /* section heads scale */
+  .section{padding:72px 0}
+  .section-head h2{font-size:clamp(30px,8vw,44px);line-height:1.05}
+  .section-head p{font-size:15px;margin-top:18px}
+  .section-head{margin-bottom:36px}
+
+  /* why cards */
+  .why-card{padding:24px;border-radius:20px}
+  .why-card h3{font-size:21px}
+  .why-card p{font-size:14px}
+
+  /* HOW card — tighter padding */
+  .how{padding:48px 22px;margin:0 16px;border-radius:22px}
+  .how-head h2{font-size:clamp(28px,7vw,40px)}
+  .step .n{width:64px;height:64px;font-size:28px;border-width:2px}
+  .step .n::after{inset:-7px}
+  .step h4{font-size:18px}
+
+  /* feature magnet card */
+  .feature-magnet{padding:64px 16px}
+  .feature-magnet .card{padding:36px 22px;border-radius:24px}
+  .feature-magnet h2{font-size:clamp(32px,9vw,48px)}
+  .feature-magnet .lede{font-size:15px}
+  .feature-magnet .stamp{width:72px;height:72px;font-size:11px;top:-12px;right:-6px}
+  .feature-magnet .stamp small{font-size:8px}
+  .feature-magnet .perks .p{padding:12px 14px;gap:10px}
+  .feature-magnet .perks .p .n{font-size:16px;min-width:20px}
+  .feature-magnet .perks .p .t b{font-size:13.5px}
+  .feature-magnet .perks .p .t small{font-size:11.5px}
+
+  /* ===== APP PREVIEW: horizontal scroll carousel ===== */
+  .app-preview-section{padding:80px 0;overflow:hidden}
+  .phones{
+    display:flex;
+    overflow-x:auto;
+    overflow-y:visible;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scroll-padding:0 24px;
+    padding:32px 24px 16px;
+    gap:18px;
+    justify-content:flex-start;
+    perspective:none;
+    scrollbar-width:none;
+  }
+  .phones::-webkit-scrollbar{display:none}
+  .phones .phone{
+    scroll-snap-align:center;
+    flex:0 0 240px;
+    width:240px;
+    height:500px;
+  }
+  /* override the rotation / vertical offsets on mobile */
+  .phones .phone:nth-child(1),
+  .phones .phone:nth-child(2),
+  .phones .phone:nth-child(3){transform:none}
+  .phones .phone:hover{transform:none}
+
+  /* carousel hint dots */
+  .phone-dots{
+    display:flex;justify-content:center;gap:8px;margin-top:18px;
+  }
+  .phone-dots span{
+    width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);
+    transition:background .25s ease,transform .25s ease;
+  }
+  .phone-dots span.on{background:var(--brand);transform:scale(1.25)}
+
+  /* swipe hint */
+  .phone-hint{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    color:#bbb;font-family:"IBM Plex Mono",monospace;font-size:10px;
+    letter-spacing:.18em;margin-top:14px;
+  }
+  .phone-hint::before,.phone-hint::after{
+    content:"";display:block;width:18px;height:1px;background:rgba(255,255,255,.2);
+  }
+
+  /* FAQ tighter */
+  .faq-item summary{font-size:15px;padding:18px 0;gap:14px}
+  .faq-item summary .q .n{font-size:10px;margin-bottom:6px}
+  .faq-item summary .toggle{width:36px;height:36px;font-size:18px}
+  .faq-item .a{font-size:13.5px;padding-bottom:18px}
+
+  /* final CTA — compact */
+  .final-cta{padding:64px 18px 72px}
+  .final-cta h2{font-size:clamp(32px,9vw,52px)}
+  .final-cta p{font-size:15px}
+  .final-cta .ascii{font-size:10px}
+
+  /* footer */
+  footer .inner{grid-template-columns:1fr 1fr;gap:24px;padding-bottom:28px}
+  footer h6{margin-bottom:14px}
+
+  /* ===== sticky bottom CTA — appears after scrolling hero ===== */
+  .mobile-cta-bar{display:block}
+  body{padding-bottom:88px}
+}
+
+/* carousel dots + hint — base (hidden on desktop) */
+.phone-dots,.phone-hint{display:none}
+
+/* sticky bottom CTA bar — mobile only */
+.mobile-cta-bar{
+  display:none;
+  position:fixed;left:0;right:0;bottom:0;z-index:55;
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(1.2) blur(14px);
+  -webkit-backdrop-filter:saturate(1.2) blur(14px);
+  border-top:1.5px solid var(--ink);
+  box-shadow:0 -10px 30px -10px rgba(0,0,0,.12);
+  transform:translateY(110%);
+  transition:transform .35s cubic-bezier(.2,.85,.25,1);
+}
+.mobile-cta-bar.show{transform:translateY(0)}
+.mobile-cta-bar a{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;min-height:50px;
+  background:var(--brand);color:var(--ink);
+  border-radius:14px;border:1.5px solid var(--ink);
+  font-family:"GmarketSansBold";font-size:15px;letter-spacing:-.01em;
+  box-shadow:3px 3px 0 var(--ink);
+  transition:transform .15s ease;
+}
+.mobile-cta-bar a:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.mobile-cta-bar a .pip{
+  width:7px;height:7px;border-radius:50%;background:var(--signal);
+  box-shadow:0 0 0 0 rgba(255,79,24,.55);animation:pulse 1.6s infinite;
+}
+
+/* smallest screens — 400px and below */
+@media (max-width:400px){
+  .container{padding:0 16px}
+  nav.top .inner{padding:10px 16px;gap:12px}
+  nav.top .brand{font-size:18px}
+  nav.top .cta{padding:10px 14px;font-size:12px}
+  .hero h1{font-size:54px}
+  .hero .lede{font-size:15px}
+  .hero-visual{height:340px}
+  .hero-visual .pin .nm{font-size:10px;padding:2px 6px}
+  .hero-visual .pin .pip{width:28px;height:28px;box-shadow:3px 3px 0 var(--ink)}
+  .hero-visual .pin .pip span{font-size:11px}
+  .hero-visual .radar{width:120px;height:120px}
+  .hero-visual .fare .lbl{font-size:9px}
+  .magnet{padding:18px;box-shadow:3px 3px 0 var(--ink)}
+  .magnet .head h3{font-size:17px}
+  .stats-strip .row{grid-template-columns:1fr 1fr;padding:22px 14px;gap:18px 14px}
+  .stats-strip .stat .v{font-size:28px}
+  .section-head h2{font-size:30px}
+  .why-card{padding:22px}
+  .why-card .num{font-size:42px;top:16px;right:18px}
+  .how{padding:42px 18px;margin:0 12px}
+  .feature-magnet .card{padding:30px 18px}
+  .feature-magnet .stamp{width:64px;height:64px;font-size:10px;top:-10px;right:-4px}
+  .faq-item summary{font-size:14.5px}
+  .footer .inner{grid-template-columns:1fr;gap:20px}
+}
+
 </style>
 </head>
 <body>
@@ -1218,6 +1438,14 @@ footer .meta .made{color:var(--brand)}
       </div>
     </div>
 
+    <!-- carousel hint + dots (mobile only) -->
+    <div class="phone-hint" id="phoneHint" aria-hidden="true">SWIPE TO SEE MORE</div>
+    <div class="phone-dots" id="phoneDots" aria-hidden="true">
+      <span class="on"></span>
+      <span></span>
+      <span></span>
+    </div>
+
     <div style="text-align:center;margin-top:60px">
       <a href="prototype.html" style="display:inline-flex;align-items:center;gap:10px;background:var(--brand);color:var(--ink);font-family:'GmarketSansBold';font-size:15px;padding:16px 28px;border-radius:14px;border:1.5px solid var(--ink);box-shadow:6px 6px 0 var(--brand-hot);transition:transform .2s ease">
         앱 프로토타입 전체 보기
@@ -1397,6 +1625,14 @@ footer .meta .made{color:var(--brand)}
   </div>
 </footer>
 
+<!-- MOBILE STICKY CTA (shown after scrolling past hero) -->
+<div class="mobile-cta-bar" id="mobileCtaBar" aria-hidden="true">
+  <a href="#signup">
+    <span class="pip"></span>
+    사전등록하고 첫 3회 무료로 타기
+  </a>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1536,6 +1772,61 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     }
   });
 });
+
+/* ============== Mobile sticky CTA bar ============== */
+(function(){
+  const bar = document.getElementById('mobileCtaBar');
+  const signup = document.getElementById('signup');
+  if(!bar || !signup) return;
+
+  let signupInView = false;
+  const signupIO = new IntersectionObserver((entries)=>{
+    signupInView = entries[0].isIntersecting;
+    update();
+  }, { threshold: 0.15 });
+  signupIO.observe(signup);
+
+  function update(){
+    const past = window.scrollY > 480;
+    const show = past && !signupInView;
+    bar.classList.toggle('show', show);
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', ()=>{
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(()=>{ update(); ticking = false; });
+  }, { passive: true });
+})();
+
+/* ============== Phone carousel dot indicator ============== */
+(function(){
+  const phones = document.querySelector('.phones');
+  const dots = document.getElementById('phoneDots');
+  if(!phones || !dots) return;
+
+  const items = phones.querySelectorAll('.phone');
+  const dotSpans = dots.querySelectorAll('span');
+  if(!items.length || items.length !== dotSpans.length) return;
+
+  let ticking = false;
+  phones.addEventListener('scroll', ()=>{
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(()=>{
+      const center = phones.scrollLeft + phones.clientWidth / 2;
+      let bestIdx = 0, bestDist = Infinity;
+      items.forEach((el, i)=>{
+        const elCenter = el.offsetLeft + el.offsetWidth / 2;
+        const d = Math.abs(elCenter - center);
+        if(d < bestDist){ bestDist = d; bestIdx = i; }
+      });
+      dotSpans.forEach((s, i)=> s.classList.toggle('on', i === bestIdx));
+      ticking = false;
+    });
+  }, { passive: true });
+})();
 </script>
 
 <!-- Vercel Web Analytics -->
