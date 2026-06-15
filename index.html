@@ -3,1839 +3,1552 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="theme-color" content="#FFE500" />
-<title>함께타다</title>
+<meta name="theme-color" content="#06C755" />
+<title>함께타다 — 같은 방향이면, 택시비는 절반.</title>
+<meta name="description" content="목적지 기반 실시간 택시 매칭. 출발지 50m 안에서 같은 방향 동행을 찾아 분담합니다. 사전등록 시 첫 3회 분담금 면제." />
+<meta property="og:title" content="함께타다 — 같은 방향이면, 택시비는 절반." />
+<meta property="og:description" content="50m 안에서 같은 방향 사람과 자동 매칭해 요금을 분담합니다. 사전등록 시 첫 3회 분담금 면제." />
+<meta property="og:type" content="website" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
 <link href="https://hangeul.pstatic.net/hangeul_static/css/gmarket-sans.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Fraunces:opsz,wght,SOFT@9..144,300..900,30..100&display=swap" rel="stylesheet">
+
 <style>
 /* =============================================================
-   함께타다 — Web App Prototype
+   함께타다 — Landing / Lead Magnet
+   Editorial Korean transit magazine
    ============================================================= */
 :root{
-  --bg:#F4F2EC;
+  --bg:#F5F7F3;
   --paper:#FFFFFF;
+  --cream:#E8EEE5;
   --ink:#0B0B0B;
   --ink-2:#1F1F1F;
   --mute:#7C786E;
-  --line:rgba(11,11,11,.10);
+  --line:rgba(11,11,11,.12);
   --line-2:rgba(11,11,11,.06);
-  --kakao:#FFE500;
-  --kakao-hot:#FFD400;
-  --kakao-soft:#FFF6B0;
+  --brand:#06C755;       /* LINE Green */
+  --brand-hot:#05B14E;   /* deeper green for hover/shadow */
+  --brand-soft:#E5F8ED;  /* pale green tint */
+  --brand-deep:#03894B;  /* darkest green */
   --signal:#FF4F18;
   --mint:#1FBF9B;
   --night:#0E0E0E;
-  --radius:18px;
-  --r-sm:12px;
-  --r-lg:24px;
-  --app-w:420px;
-  --app-h:880px;
+  --max:1280px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
 html,body{height:100%}
 body{
   font-family:"Pretendard Variable",Pretendard,-apple-system,system-ui,sans-serif;
-  background:
-    radial-gradient(800px 600px at 20% 10%, #FFF6B0 0%, transparent 60%),
-    radial-gradient(900px 600px at 100% 100%, #E9F7F1 0%, transparent 60%),
-    var(--bg);
+  background:var(--bg);
   color:var(--ink);
   -webkit-font-smoothing:antialiased;
-  overflow:hidden;
-  display:grid;
-  place-items:center;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  line-height:1.5;
 }
-button{font-family:inherit;border:none;cursor:pointer;color:inherit}
-input,select,textarea{font-family:inherit}
-.display{font-family:"GmarketSansBold","Pretendard Variable",sans-serif;letter-spacing:-.025em}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;color:inherit}
+input,textarea,select{font-family:inherit}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--brand);color:var(--ink)}
+
+.display{font-family:"GmarketSansBold","Pretendard Variable",sans-serif;letter-spacing:-.03em;line-height:1.02}
+.serif{font-family:"Fraunces",Georgia,serif;font-variation-settings:"opsz" 96,"SOFT" 30;letter-spacing:-.02em}
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-feature-settings:"tnum"}
-::selection{background:var(--kakao);color:var(--ink)}
 
-/* ====== device frame ====== */
-.device{
-  width:var(--app-w);
-  height:var(--app-h);
-  max-height:96vh;
-  border-radius:48px;
-  background:#000;
-  padding:14px;
-  box-shadow:
-    0 50px 120px -20px rgba(0,0,0,.4),
-    0 0 0 1px rgba(0,0,0,.7),
-    inset 0 0 0 2px #2a2a2a;
-  position:relative;
+/* page texture */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:
+    radial-gradient(900px 700px at 12% 0%, rgba(6,199,85,.14), transparent 60%),
+    radial-gradient(800px 600px at 100% 100%, rgba(6,199,85,.06), transparent 60%);
 }
-.device::before{
-  content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);
-  width:120px;height:30px;background:#000;border-radius:18px;z-index:30;
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
+  background-image:
+    radial-gradient(rgba(11,11,11,.04) 1px, transparent 1px);
+  background-size:3px 3px;mix-blend-mode:multiply;opacity:.6;
 }
-.device::after{
-  content:"";position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
-  width:120px;height:5px;background:#222;border-radius:3px;z-index:30;
+main, header, footer{position:relative;z-index:3}
+
+.container{max-width:var(--max);margin:0 auto;padding:0 32px}
+.row{display:flex;gap:16px;align-items:center}
+.col{display:flex;flex-direction:column;gap:12px}
+.spacer{flex:1}
+
+/* =========== TICKER NAV TOP =========== */
+.marquee-bar{
+  background:var(--ink);color:var(--brand);
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;
+  border-bottom:1px solid #000;overflow:hidden;
+  position:relative;z-index:50;
 }
-.screen-stage{
-  width:100%;height:100%;border-radius:36px;overflow:hidden;background:var(--bg);
-  position:relative;isolation:isolate;
+.marquee-bar .track{
+  display:inline-flex;gap:48px;padding:10px 0;white-space:nowrap;
+  animation:marquee 28s linear infinite;
+  will-change:transform;
+}
+.marquee-bar .track span{display:inline-flex;align-items:center;gap:8px}
+.marquee-bar .track span::before{content:"●";color:var(--signal);font-size:8px}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* =========== NAV =========== */
+nav.top{
+  position:sticky;top:0;z-index:40;
+  background:rgba(244,242,236,.85);
+  backdrop-filter:saturate(1.2) blur(14px);
+  -webkit-backdrop-filter:saturate(1.2) blur(14px);
+  border-bottom:1px solid var(--line-2);
+}
+nav.top .inner{
+  display:flex;align-items:center;gap:24px;
+  padding:14px 32px;max-width:var(--max);margin:0 auto;
+}
+nav.top .brand{display:flex;align-items:center;gap:10px;font-family:"GmarketSansBold";font-size:20px;letter-spacing:-.02em}
+nav.top .brand .logo{
+  width:34px;height:34px;border-radius:10px;background:var(--brand);border:1.5px solid var(--ink);
+  display:grid;place-items:center;font-family:"GmarketSansBold";font-size:14px;
+  transform:rotate(-6deg);
+}
+nav.top .links{display:flex;gap:28px;margin-left:24px}
+nav.top .links a{font-size:13px;font-weight:600;color:var(--ink-2);position:relative}
+nav.top .links a:hover{color:var(--ink)}
+nav.top .links a::after{content:"";position:absolute;left:0;right:100%;bottom:-3px;height:2px;background:var(--ink);transition:right .25s ease}
+nav.top .links a:hover::after{right:0}
+nav.top .cta{
+  background:var(--ink);color:var(--brand);padding:10px 16px;border-radius:999px;
+  font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:8px;
+  border:1.5px solid var(--ink);transition:transform .2s ease,background .2s ease;
+}
+nav.top .cta:hover{background:var(--brand);color:var(--ink);transform:translateY(-1px)}
+nav.top .cta .pip{width:6px;height:6px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 0 rgba(255,79,24,.5);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,79,24,.55)}70%{box-shadow:0 0 0 8px rgba(255,79,24,0)}100%{box-shadow:0 0 0 0 rgba(255,79,24,0)}}
+
+/* =========== HERO =========== */
+.hero{padding:48px 0 80px;position:relative;overflow:hidden}
+.hero .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:64px;align-items:center}
+.hero .eyebrow{
+  display:inline-flex;align-items:center;gap:10px;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;letter-spacing:.22em;color:var(--ink);
+  background:var(--brand);border:1.5px solid var(--ink);
+  padding:6px 12px;border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink);
+  margin-bottom:28px;
+}
+.hero h1{
+  font-family:"GmarketSansBold";font-weight:700;
+  font-size:clamp(48px, 8vw, 108px);
+  line-height:.96;letter-spacing:-.035em;color:var(--ink);
+}
+.hero h1 em{font-style:normal;position:relative;display:inline-block;color:var(--ink)}
+.hero h1 em::after{
+  content:"";position:absolute;left:-4px;right:-4px;bottom:.06em;height:.36em;
+  background:var(--brand);z-index:-1;border-radius:4px;transform:rotate(-1deg);
+}
+.hero h1 .strike{position:relative;color:var(--mute);font-size:.55em;vertical-align:.2em;margin-right:12px}
+.hero h1 .strike::after{content:"";position:absolute;left:-4px;right:-4px;top:50%;height:3px;background:var(--signal);transform:rotate(-6deg)}
+.hero .lede{
+  font-family:"Pretendard Variable",sans-serif;font-weight:500;
+  font-size:18px;line-height:1.55;color:var(--ink-2);
+  margin-top:28px;max-width:520px;
+}
+.hero .lede b{font-weight:700;background:linear-gradient(180deg,transparent 65%,var(--brand) 65%)}
+
+/* lead magnet card */
+.magnet{
+  margin-top:36px;background:var(--paper);border:1.5px solid var(--ink);
+  border-radius:24px;padding:24px;max-width:540px;
+  box-shadow:8px 8px 0 var(--ink);position:relative;
+}
+.magnet::before{
+  content:"PRE-LAUNCH · 사전등록";
+  position:absolute;top:-12px;left:24px;
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.22em;
+  background:var(--ink);color:var(--brand);padding:5px 10px;border-radius:6px;
+}
+.magnet .head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:18px}
+.magnet .head h3{font-family:"GmarketSansBold";font-size:22px;line-height:1.22;letter-spacing:-.02em}
+.magnet .head .badge{
+  flex-shrink:0;font-family:"GmarketSansBold";font-size:11px;
+  background:var(--signal);color:#fff;padding:4px 10px;border-radius:6px;
+  letter-spacing:.05em;
+}
+.magnet ul.perks{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.magnet ul.perks li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.magnet ul.perks li svg{flex-shrink:0;width:18px;height:18px;color:var(--brand);margin-top:1px}
+.magnet ul.perks li b{font-weight:700;color:var(--ink)}
+
+form.lead{display:flex;flex-direction:column;gap:10px}
+form.lead .field{
+  display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--ink);
+  border-radius:14px;padding:4px 4px 4px 18px;transition:box-shadow .2s ease;
+}
+form.lead .field:focus-within{box-shadow:4px 4px 0 var(--ink)}
+form.lead .field svg{width:18px;height:18px;color:var(--mute);flex-shrink:0;margin-right:10px}
+form.lead .field input{
+  flex:1;background:transparent;border:none;outline:none;
+  padding:14px 0;font-size:15px;font-weight:600;color:var(--ink);
+}
+form.lead .field input::placeholder{color:#a8a59c;font-weight:500}
+form.lead .field select{
+  background:transparent;border:none;outline:none;font-size:13px;font-weight:600;
+  color:var(--ink-2);padding:0 12px 0 8px;border-left:1px solid var(--line);
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' fill='none' stroke='%230B0B0B' stroke-width='1.5'/></svg>");
+  background-repeat:no-repeat;background-position:right 6px center;padding-right:22px;
+}
+form.lead .submit{
+  background:var(--ink);color:var(--brand);font-family:"GmarketSansBold";
+  font-size:16px;padding:18px 24px;border-radius:14px;letter-spacing:-.01em;
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  transition:transform .15s ease,background .2s ease;position:relative;overflow:hidden;
+  border:1.5px solid var(--ink);
+}
+form.lead .submit:hover{background:var(--brand);color:var(--ink)}
+form.lead .submit:active{transform:scale(.98)}
+form.lead .submit[disabled]{opacity:.6;cursor:not-allowed;transform:none}
+form.lead .submit svg{width:18px;height:18px;transition:transform .25s ease}
+form.lead .submit:hover svg{transform:translateX(4px)}
+
+form.lead .consent{font-size:11px;color:var(--mute);display:flex;gap:8px;align-items:flex-start;margin-top:4px;line-height:1.5}
+form.lead .consent input{margin-top:2px;accent-color:var(--ink);width:14px;height:14px}
+form.lead .consent a{text-decoration:underline}
+
+.form-status{font-size:13px;font-weight:600;padding:8px 4px 0;min-height:22px}
+.form-status.ok{color:#067A60}
+.form-status.err{color:#C2350F}
+
+/* tiny social proof under form */
+.under-form{
+  display:flex;align-items:center;gap:14px;margin-top:18px;font-size:12px;color:var(--mute);
+}
+.under-form .avs{display:flex}
+.under-form .avs span{
+  width:28px;height:28px;border-radius:50%;border:2px solid var(--bg);
+  display:grid;place-items:center;font-family:"GmarketSansBold";font-size:11px;color:var(--ink);
+  margin-left:-8px;
+}
+.under-form .avs span:first-child{margin-left:0}
+.under-form b{font-weight:700;color:var(--ink);font-family:"IBM Plex Mono",monospace}
+
+/* hero visual */
+.hero-visual{position:relative;height:600px}
+.hero-visual .stage{
+  position:absolute;inset:0;border-radius:32px;overflow:hidden;
+  background:
+    radial-gradient(500px 320px at 80% 100%, rgba(6,199,85,.5), transparent 60%),
+    radial-gradient(400px 300px at 0% 0%, rgba(31,191,155,.18), transparent 60%),
+    linear-gradient(180deg,#F9FBF7,#DDEAD8);
+  border:1.5px solid var(--ink);
+  box-shadow:14px 14px 0 var(--ink);
+}
+.hero-visual .grid-bg{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(11,11,11,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(11,11,11,.08) 1px,transparent 1px);
+  background-size:36px 36px;
+  mask-image:radial-gradient(ellipse at center,black 50%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse at center,black 50%,transparent 100%);
+}
+.hero-visual .road{position:absolute;background:var(--ink);border-radius:6px}
+.hero-visual .road.r1{left:6%;right:8%;top:42%;height:8px;transform:rotate(-7deg)}
+.hero-visual .road.r2{left:18%;right:24%;top:68%;height:5px;background:#444;transform:rotate(4deg)}
+.hero-visual .road.r3{width:100px;top:24%;right:14%;height:5px;background:#444;transform:rotate(60deg)}
+.hero-visual .route{
+  position:absolute;left:18%;right:22%;top:54%;height:4px;
+  background:repeating-linear-gradient(90deg,var(--signal) 0 10px,transparent 10px 18px);
+  transform:rotate(-12deg);
+  animation:march 1s linear infinite;
+}
+@keyframes march{from{background-position:0 0}to{background-position:28px 0}}
+
+.hero-visual .pin{position:absolute;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:5px;z-index:3}
+.hero-visual .pin .pip{
+  width:38px;height:38px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+  border:2px solid var(--ink);display:grid;place-items:center;
+  font-family:"GmarketSansBold";font-size:13px;
+  box-shadow:4px 4px 0 var(--ink);
+}
+.hero-visual .pin .pip span{transform:rotate(45deg);display:block}
+.hero-visual .pin .nm{
+  font-size:11px;font-weight:700;background:var(--ink);color:#fff;
+  padding:3px 8px;border-radius:5px;white-space:nowrap;letter-spacing:-.01em;
+}
+.hero-visual .pin.me .pip{background:var(--brand)}
+.hero-visual .pin.mate .pip{background:#fff}
+.hero-visual .pin.dest .pip{background:var(--ink);color:var(--brand)}
+
+.hero-visual .pin.me{left:24%;top:74%;animation:bob 3s ease-in-out infinite}
+.hero-visual .pin.mate{left:46%;top:56%;animation:bob 3s ease-in-out infinite .5s}
+.hero-visual .pin.dest{left:78%;top:34%;animation:bob 3s ease-in-out infinite 1s}
+@keyframes bob{0%,100%{transform:translate(-50%,-100%) translateY(0)}50%{transform:translate(-50%,-100%) translateY(-6px)}}
+
+/* radar around "me" */
+.hero-visual .radar{
+  position:absolute;left:24%;top:74%;transform:translate(-50%,-50%);
+  width:200px;height:200px;pointer-events:none;
+}
+.hero-visual .radar .ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:1.5px dashed rgba(11,11,11,.35);
+  animation:ringgrow 3s ease-out infinite;
+}
+.hero-visual .radar .ring:nth-child(2){animation-delay:1s}
+.hero-visual .radar .ring:nth-child(3){animation-delay:2s}
+@keyframes ringgrow{
+  0%{transform:scale(.3);opacity:0}
+  20%{opacity:1}
+  100%{transform:scale(1.4);opacity:0}
 }
 
-/* ====== status bar ====== */
-.status-bar{
-  position:absolute;top:0;left:0;right:0;height:44px;z-index:25;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 28px 0;font-size:13px;font-weight:700;color:var(--ink);
-  font-family:"IBM Plex Mono",monospace;
+/* live chip on visual */
+.hero-visual .live-chip{
+  position:absolute;top:24px;left:24px;display:inline-flex;align-items:center;gap:8px;
+  background:var(--ink);color:var(--brand);padding:8px 14px;border-radius:999px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;
+  border:1.5px solid var(--ink);
+}
+.hero-visual .live-chip .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 0 rgba(255,79,24,.5);animation:pulse 1.6s infinite}
+
+/* fare card overlay */
+.hero-visual .fare{
+  position:absolute;right:24px;bottom:24px;background:var(--ink);color:#fff;
+  border-radius:18px;padding:16px 20px;width:240px;
+  border:1.5px solid var(--ink);box-shadow:6px 6px 0 var(--brand);
+}
+.hero-visual .fare .lbl{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--brand);letter-spacing:.16em}
+.hero-visual .fare .you{display:flex;align-items:flex-end;justify-content:space-between;margin-top:6px;gap:8px}
+.hero-visual .fare .you .strike{
+  display:block;color:#777;font-size:11px;text-decoration:line-through;margin-bottom:2px;text-align:right;
+}
+.hero-visual .fare .you b{font-family:"GmarketSansBold";font-size:30px;color:var(--brand)}
+.hero-visual .fare .split{
+  display:flex;justify-content:space-between;font-size:11px;color:#999;
+  margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.2);
+}
+.hero-visual .fare .split b{color:#fff;font-family:"IBM Plex Mono",monospace}
+
+/* =========== TICKER STATS =========== */
+.stats-strip{
+  background:var(--ink);color:#fff;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);
+}
+.stats-strip .row{
+  max-width:var(--max);margin:0 auto;padding:36px 32px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:32px;
+}
+.stats-strip .stat{position:relative;padding-left:18px}
+.stats-strip .stat::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:3px;background:var(--brand);border-radius:2px}
+.stats-strip .stat .l{font-family:"IBM Plex Mono",monospace;font-size:11px;color:#999;letter-spacing:.16em;text-transform:uppercase}
+.stats-strip .stat .v{font-family:"GmarketSansBold";font-size:40px;letter-spacing:-.02em;margin-top:6px;color:var(--brand)}
+.stats-strip .stat .v small{font-family:"Pretendard Variable",sans-serif;font-size:14px;color:#fff;font-weight:600;margin-left:4px}
+.stats-strip .stat .s{font-size:12px;color:#aaa;margin-top:4px}
+
+/* =========== SECTION HEAD =========== */
+.section{padding:120px 0;position:relative}
+.section.tight{padding:80px 0}
+.section-head{margin-bottom:60px;max-width:760px}
+.section-head .kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.22em;color:var(--ink-2);
+  padding:6px 0;border-top:2px solid var(--ink);text-transform:uppercase;
+}
+.section-head .kicker::before{content:"§";font-family:"Fraunces",serif;font-style:italic;font-weight:400;color:var(--signal);font-size:14px;letter-spacing:0}
+.section-head h2{
+  font-family:"GmarketSansBold";font-size:clamp(36px,5.5vw,72px);line-height:1.02;
+  letter-spacing:-.03em;margin-top:18px;
+}
+.section-head h2 em{font-style:normal;background:linear-gradient(180deg,transparent 60%,var(--brand) 60%);padding:0 2px}
+.section-head p{font-size:17px;line-height:1.55;color:var(--ink-2);margin-top:22px;max-width:600px}
+
+/* =========== WHY (Big cards) =========== */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.why-card{
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:24px;
+  padding:32px;position:relative;overflow:hidden;
+  transition:transform .25s ease,box-shadow .25s ease;
+}
+.why-card:hover{transform:translateY(-4px);box-shadow:10px 10px 0 var(--ink)}
+.why-card .num{
+  position:absolute;top:24px;right:28px;font-family:"Fraunces",serif;
+  font-weight:300;font-style:italic;font-size:64px;line-height:1;color:rgba(11,11,11,.12);
+}
+.why-card .ic{
+  width:56px;height:56px;border-radius:16px;background:var(--brand);
+  border:1.5px solid var(--ink);display:grid;place-items:center;
+  margin-bottom:24px;box-shadow:4px 4px 0 var(--ink);
+}
+.why-card .ic svg{width:28px;height:28px;color:var(--ink)}
+.why-card h3{font-family:"GmarketSansBold";font-size:24px;letter-spacing:-.02em;line-height:1.2}
+.why-card p{font-size:14.5px;color:var(--ink-2);margin-top:12px;line-height:1.6}
+.why-card .stat{
+  margin-top:24px;padding-top:18px;border-top:1px dashed var(--line);
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.why-card .stat .v{font-family:"GmarketSansBold";font-size:28px;letter-spacing:-.02em}
+.why-card .stat .l{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mute);letter-spacing:.1em}
+
+.why-card.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.why-card.dark .num{color:rgba(6,199,85,.18)}
+.why-card.dark .ic{background:var(--brand)}
+.why-card.dark p{color:#bbb}
+.why-card.dark .stat{border-color:rgba(255,255,255,.15)}
+.why-card.dark .stat .v{color:var(--brand)}
+.why-card.dark .stat .l{color:#999}
+
+/* =========== HOW IT WORKS =========== */
+.how{
+  background:var(--ink);color:#fff;border-radius:32px;
+  padding:80px 60px;margin:0 32px;
+  position:relative;overflow:hidden;
+  border:1.5px solid var(--ink);
+}
+.how::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(800px 400px at 10% 0%, rgba(6,199,85,.18), transparent 60%),
+    radial-gradient(700px 400px at 100% 100%, rgba(31,191,155,.12), transparent 60%);
   pointer-events:none;
 }
-.status-bar .right{display:flex;gap:6px;align-items:center}
+.how-head{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:60px}
+.how-head .kicker{color:var(--brand);border-top-color:var(--brand)}
+.how-head .kicker::before{color:var(--brand)}
+.how-head h2{font-family:"GmarketSansBold";font-size:clamp(36px,5vw,64px);line-height:1.02;letter-spacing:-.03em}
+.how-head h2 em{font-style:normal;color:var(--brand)}
+.how-head .lede{max-width:340px;font-size:14.5px;color:#bbb;line-height:1.6}
 
-/* ====== screen routing ====== */
-.screen{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  background:var(--bg);overflow:hidden;
-  transform:translateX(100%);opacity:0;transition:transform .42s cubic-bezier(.2,.85,.25,1), opacity .3s ease;
-  will-change:transform,opacity;
+.steps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:0;align-items:stretch}
+.steps::before{
+  content:"";position:absolute;top:48px;left:60px;right:60px;height:3px;
+  background:repeating-linear-gradient(90deg,var(--brand) 0 12px,transparent 12px 22px);
 }
-.screen.active{transform:translateX(0);opacity:1;z-index:5}
-.screen.prev{transform:translateX(-22%);opacity:.5;z-index:4}
-.screen.modal{
-  transform:translateY(100%);transition:transform .4s cubic-bezier(.2,.85,.25,1);
-  z-index:20;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);
+.step{padding:0 24px;position:relative}
+.step:not(:last-child)::after{
+  content:"→";position:absolute;top:38px;right:-10px;font-family:"GmarketSansBold";font-size:24px;
+  color:var(--brand);z-index:2;
 }
-.screen.modal.active{transform:translateY(0);opacity:1}
+.step .n{
+  width:96px;height:96px;border-radius:50%;background:var(--ink);border:3px solid var(--brand);
+  display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:600;font-style:italic;
+  font-size:42px;color:var(--brand);position:relative;z-index:2;margin-bottom:28px;
+}
+.step .n::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px dashed rgba(6,199,85,.4)}
+.step h4{font-family:"GmarketSansBold";font-size:20px;letter-spacing:-.02em;line-height:1.2;margin-bottom:10px}
+.step p{font-size:13.5px;color:#bbb;line-height:1.6}
+.step .time{
+  display:inline-flex;align-items:center;gap:6px;margin-top:14px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--brand);
+  background:rgba(6,199,85,.08);padding:5px 10px;border-radius:6px;border:1px solid rgba(6,199,85,.2);
+}
 
-/* ====== top app bar ====== */
-.appbar{
-  padding:54px 20px 14px;display:flex;align-items:center;justify-content:space-between;
-  background:transparent;flex-shrink:0;
-}
-.appbar.solid{background:var(--paper);border-bottom:1px solid var(--line)}
-.appbar h1{font-size:17px;font-weight:700;letter-spacing:-.01em}
-.appbar .back,.appbar .icon-btn{
-  width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.7);
-  border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);
-}
-.appbar .back:hover,.appbar .icon-btn:hover{background:#fff}
-.appbar .spacer{flex:1}
-
-.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.scroll-area::-webkit-scrollbar{display:none}
-
-/* ====== bottom tabbar ====== */
-.tabbar{
-  flex-shrink:0;height:74px;background:var(--paper);
-  border-top:1px solid var(--line);
-  display:grid;grid-template-columns:repeat(5,1fr);
-  padding:6px 8px 14px;position:relative;z-index:10;
-}
-.tabbar button{
-  background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;font-size:10px;font-weight:600;color:#aaa;padding:6px 0;border-radius:12px;
-}
-.tabbar button .ic{font-size:20px;line-height:1}
-.tabbar button.on{color:var(--ink)}
-.tabbar button.on .ic{filter:none}
-.tabbar button.center{
-  background:var(--ink);color:var(--kakao);border-radius:16px;margin:0 4px;
-}
-.tabbar button.center .ic{font-size:22px}
-
-/* ====== common atoms ====== */
-.kbd-handle{width:36px;height:5px;background:#dbd8d0;border-radius:3px;margin:8px auto}
-.divider{height:1px;background:var(--line);margin:14px 0}
-
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:14px 18px;border-radius:14px;font-weight:700;font-size:15px;
-  border:1px solid var(--ink);background:var(--paper);transition:transform .15s ease;
-}
-.btn:active{transform:scale(.98)}
-.btn.primary{background:var(--kakao);color:var(--ink)}
-.btn.dark{background:var(--ink);color:var(--bg)}
-.btn.ghost{background:transparent;border-color:var(--line)}
-.btn.block{display:flex;width:100%}
-.btn.lg{padding:18px;font-size:16px;border-radius:18px}
-.btn.sm{padding:9px 14px;font-size:13px;border-radius:10px}
-
-.chip{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:6px 12px;border-radius:999px;background:var(--paper);
-  border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink-2);
-}
-.chip.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
-.chip.yellow{background:var(--kakao);border-color:var(--ink)}
-.chip.mint{background:#DFF7F0;border-color:#A8E0D2;color:#067A60}
-.chip.signal{background:#FFE2D8;border-color:#FFB59B;color:#C2350F}
-
-.card{
-  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
-  padding:18px;
-}
-.card-y{background:var(--kakao);border:1px solid var(--ink);border-radius:var(--radius);padding:18px}
-.card-d{background:var(--ink);color:#fff;border-radius:var(--radius);padding:18px}
-
-.dot-live{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 0 rgba(255,79,24,.5);animation:pulse 1.6s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,79,24,.5)}70%{box-shadow:0 0 0 8px rgba(255,79,24,0)}100%{box-shadow:0 0 0 0 rgba(255,79,24,0)}}
-
-/* ====== HOME screen ====== */
-.home-hero{padding:0 20px 18px}
-.home-hello{font-size:13px;color:var(--mute);margin-top:4px}
-.home-hello b{color:var(--ink)}
-.home-title{font-size:26px;line-height:1.18;font-weight:800;letter-spacing:-.025em;margin-top:6px}
-.home-title em{font-style:normal;background:var(--kakao);padding:0 4px;border-radius:6px}
-
-.search-bar{
-  background:var(--paper);border:1px solid var(--ink);border-radius:22px;margin:0 20px;
-  padding:14px 16px;box-shadow:0 14px 28px -10px rgba(0,0,0,.18);
-}
-.sb-row{display:flex;align-items:center;gap:12px;padding:8px 0}
-.sb-row + .sb-row{border-top:1px dashed var(--line)}
-.sb-row .ix{width:22px;display:flex;justify-content:center;font-size:14px}
-.sb-row .ix .pip{width:10px;height:10px;border-radius:50%;background:var(--mint);border:2px solid var(--ink)}
-.sb-row .ix .pip.dest{background:var(--ink);border-color:var(--ink)}
-.sb-row .ph{font-size:15px;color:var(--ink);font-weight:600;flex:1;background:none;border:none;outline:none;padding:0}
-.sb-row .ph::placeholder{color:#b8b5ad}
-.sb-row .swap{
-  width:32px;height:32px;border-radius:50%;background:var(--bg);
-  display:grid;place-items:center;border:1px solid var(--line);font-size:14px;
-}
-.sb-cta{
-  margin-top:10px;display:flex;gap:10px;
-}
-.sb-cta .btn{flex:1}
-
-.quick{padding:18px 20px 0}
-.quick h3{font-size:13px;color:var(--mute);font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between}
-.fav-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
-.fav-row::-webkit-scrollbar{display:none}
-.fav{
-  flex-shrink:0;background:var(--paper);border:1px solid var(--line);border-radius:16px;
-  padding:14px 16px;min-width:160px;display:flex;gap:10px;align-items:center;
-}
-.fav .ic{
-  width:34px;height:34px;border-radius:10px;background:var(--kakao);
-  display:grid;place-items:center;font-size:16px;border:1px solid var(--ink);
-}
-.fav .nm{font-size:13px;font-weight:700}
-.fav .ad{font-size:11px;color:var(--mute);margin-top:2px}
-
-.promo-card{
-  margin:18px 20px 0;background:var(--ink);color:#fff;border-radius:20px;
-  padding:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+/* =========== FEATURE MAGNET =========== */
+.feature-magnet{padding:120px 32px;position:relative}
+.feature-magnet .card{
+  max-width:var(--max);margin:0 auto;background:var(--brand);
+  border:1.5px solid var(--ink);border-radius:32px;
+  padding:64px 56px;box-shadow:18px 18px 0 var(--ink);
   position:relative;overflow:hidden;
 }
-.promo-card::after{
-  content:"";position:absolute;right:-30px;bottom:-30px;width:140px;height:140px;
-  border-radius:50%;background:var(--kakao);opacity:.15;
+.feature-magnet .card::before{
+  content:"";position:absolute;right:-80px;top:-80px;width:300px;height:300px;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg,var(--ink) 0 5deg,transparent 5deg 18deg);
+  opacity:.07;
 }
-.promo-card .tag{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--kakao);letter-spacing:.18em}
-.promo-card h4{font-family:"GmarketSansBold",sans-serif;font-size:18px;margin-top:8px;line-height:1.25}
-.promo-card .more{font-size:12px;color:#aaa;margin-top:6px}
-.promo-card .pct{font-family:"GmarketSansBold",sans-serif;font-size:42px;color:var(--kakao)}
-
-.savings{
-  margin:14px 20px 0;background:var(--paper);border:1px solid var(--line);
-  border-radius:18px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;
+.feature-magnet .card::after{
+  content:"₩";position:absolute;right:60px;bottom:-90px;
+  font-family:"Fraunces",serif;font-weight:300;font-style:italic;
+  font-size:380px;line-height:1;color:rgba(11,11,11,.06);
 }
-.savings .lt small{font-size:11px;color:var(--mute);letter-spacing:.04em}
-.savings .lt b{display:block;font-family:"GmarketSansBold",sans-serif;font-size:22px;margin-top:2px}
-.savings .rt{text-align:right;font-size:11px;color:var(--mute)}
-.savings .rt b{display:block;color:var(--ink);font-size:13px;font-weight:600;margin-bottom:2px}
-
-.activity-mini{margin:14px 20px 24px}
-.activity-mini h3{font-size:13px;color:var(--mute);font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between}
-.mini-row{
-  background:var(--paper);border:1px solid var(--line);border-radius:14px;
-  padding:12px 14px;display:flex;gap:12px;align-items:center;margin-bottom:8px;
+.feature-magnet .inner{position:relative;display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:center}
+.feature-magnet .kicker{
+  display:inline-flex;align-items:center;gap:10px;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;letter-spacing:.22em;color:var(--ink);background:var(--ink);color:var(--brand);
+  padding:6px 12px;border-radius:6px;margin-bottom:24px;
 }
-.mini-row .av{width:36px;height:36px;border-radius:50%;background:var(--kakao-soft);display:grid;place-items:center;font-size:16px;border:1px solid var(--line)}
-.mini-row .info{flex:1}
-.mini-row .info b{font-size:13px;display:block}
-.mini-row .info small{font-size:11px;color:var(--mute)}
-.mini-row .amt{font-family:"IBM Plex Mono",monospace;font-size:13px;font-weight:600;color:var(--mint)}
-
-/* ====== SEARCH screen ====== */
-.search-wrap{padding:20px}
-.search-input{
-  background:var(--paper);border:1px solid var(--ink);border-radius:16px;padding:8px 8px 8px 16px;
-  display:flex;flex-direction:column;gap:0;
+.feature-magnet h2{font-family:"GmarketSansBold";font-size:clamp(40px,6vw,80px);line-height:.98;letter-spacing:-.035em}
+.feature-magnet .lede{margin-top:24px;font-size:17px;line-height:1.55;color:var(--ink-2);max-width:520px}
+.feature-magnet .perks{display:grid;gap:14px;margin-top:32px}
+.feature-magnet .perks .p{
+  display:flex;gap:14px;background:var(--paper);border:1.5px solid var(--ink);
+  border-radius:14px;padding:14px 18px;
 }
-.search-input .ln{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line)}
-.search-input .ln:last-child{border-bottom:none}
-.search-input .ln input{flex:1;border:none;outline:none;font-size:15px;font-weight:600;background:none}
-.search-input .ln .ix{width:18px;display:flex;justify-content:center}
-.search-input .ln .ix .pip{width:10px;height:10px;border-radius:50%;background:var(--mint);border:2px solid var(--ink)}
-.search-input .ln .ix .pip.dest{background:var(--ink)}
-.search-input .ln .x{font-size:14px;color:#999;background:none;border:none;padding:4px 8px}
+.feature-magnet .perks .p .n{font-family:"GmarketSansBold";font-size:18px;color:var(--ink);min-width:24px}
+.feature-magnet .perks .p .t{flex:1}
+.feature-magnet .perks .p .t b{display:block;font-size:14px;font-weight:700;letter-spacing:-.01em}
+.feature-magnet .perks .p .t small{font-size:12px;color:var(--ink-2);display:block;margin-top:3px;line-height:1.5}
 
-.search-list{margin-top:14px}
-.sr-section{font-size:12px;color:var(--mute);font-weight:600;margin:18px 0 8px;display:flex;justify-content:space-between;letter-spacing:.04em}
-.sr{display:flex;gap:14px;padding:12px 4px;border-bottom:1px solid var(--line)}
-.sr .ic{width:38px;height:38px;border-radius:12px;background:var(--paper);border:1px solid var(--line);display:grid;place-items:center;font-size:16px}
-.sr .info{flex:1}
-.sr .info b{font-size:14px;display:block}
-.sr .info small{font-size:11px;color:var(--mute);display:block;margin-top:2px}
-.sr .km{font-size:11px;color:var(--mute);font-family:"IBM Plex Mono",monospace}
-
-/* ====== MATCHING screen (search animation) ====== */
-.matching-screen{background:var(--ink);color:#fff;justify-content:space-between}
-.matching-screen .appbar{padding:54px 20px 0}
-.matching-screen .appbar .back,.matching-screen .appbar .icon-btn{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.1)}
-.matching-screen .appbar h1{color:#fff}
-.mw-radar{flex:1;display:grid;place-items:center;position:relative;overflow:hidden}
-.radar{position:relative;width:280px;height:280px}
-.radar .rings{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,229,0,.2)}
-.radar .rings.r2{inset:30px}
-.radar .rings.r3{inset:60px;border-color:rgba(255,229,0,.35)}
-.radar .core{position:absolute;inset:0;display:grid;place-items:center}
-.radar .core .me{
-  width:64px;height:64px;border-radius:50%;background:var(--kakao);color:var(--ink);
-  display:grid;place-items:center;font-family:"GmarketSansBold",sans-serif;font-size:20px;
-  border:3px solid #000;z-index:3;animation:bob 2s infinite ease-in-out;
+.feature-magnet .visual{position:relative}
+.feature-magnet .receipt{
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:20px;
+  padding:28px 28px 18px;position:relative;transform:rotate(-2deg);
+  box-shadow:8px 8px 0 var(--ink);
 }
-@keyframes bob{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-.radar .sweep{
+.feature-magnet .receipt::before,
+.feature-magnet .receipt::after{
+  content:"";position:absolute;left:0;right:0;height:14px;
+  background-image:radial-gradient(circle at 7px 7px,var(--bg) 6px,transparent 7px);
+  background-size:14px 14px;background-repeat:repeat-x;
+}
+.feature-magnet .receipt::before{top:-7px}
+.feature-magnet .receipt::after{bottom:-7px;transform:rotate(180deg)}
+.feature-magnet .receipt h4{font-family:"GmarketSansBold";font-size:14px;letter-spacing:.06em;color:var(--mute);margin-bottom:12px;text-transform:uppercase}
+.feature-magnet .receipt .r{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.feature-magnet .receipt .r b{font-family:"IBM Plex Mono",monospace;font-weight:600}
+.feature-magnet .receipt .total{padding-top:14px;margin-top:8px;border-top:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline}
+.feature-magnet .receipt .total span{font-family:"GmarketSansBold";font-size:14px}
+.feature-magnet .receipt .total b{font-family:"GmarketSansBold";font-size:28px;letter-spacing:-.02em}
+.feature-magnet .receipt .total .strike{font-size:13px;color:var(--mute);text-decoration:line-through;margin-right:8px;font-family:"IBM Plex Mono",monospace}
+.feature-magnet .stamp{
+  position:absolute;top:-12px;right:-12px;width:96px;height:96px;
+  background:var(--signal);color:#fff;border-radius:50%;
+  display:grid;place-items:center;text-align:center;line-height:1.1;
+  border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);
+  transform:rotate(8deg);font-family:"GmarketSansBold";font-size:13px;
+  z-index:2;
+}
+.feature-magnet .stamp small{display:block;font-size:9px;letter-spacing:.1em;font-weight:600}
+
+/* =========== APP PREVIEW =========== */
+.app-preview-section{padding:120px 0;background:var(--ink);color:#fff;overflow:hidden}
+.app-preview-section .section-head{margin-left:auto;margin-right:auto;text-align:center}
+.app-preview-section .section-head .kicker{color:var(--brand);border-top-color:var(--brand)}
+.app-preview-section .section-head .kicker::before{color:var(--brand)}
+.app-preview-section .section-head h2{color:#fff}
+.app-preview-section .section-head h2 em{background:linear-gradient(180deg,transparent 60%,var(--brand) 60%);color:var(--ink);padding:0 6px}
+.app-preview-section .section-head p{color:#bbb;margin-left:auto;margin-right:auto}
+
+.phones{display:flex;justify-content:center;align-items:flex-end;gap:32px;margin-top:40px;perspective:1400px}
+.phone{
+  width:260px;height:540px;background:#000;border-radius:36px;padding:10px;
+  box-shadow:0 30px 70px -20px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.1);
+  position:relative;flex-shrink:0;
+  transition:transform .4s cubic-bezier(.2,.85,.25,1);
+}
+.phone::before{
+  content:"";position:absolute;top:14px;left:50%;transform:translateX(-50%);
+  width:80px;height:22px;background:#000;border-radius:14px;z-index:5;
+}
+.phone .scr{
+  width:100%;height:100%;border-radius:28px;overflow:hidden;background:var(--bg);
+  position:relative;color:var(--ink);
+}
+.phone:nth-child(1){transform:rotate(-6deg) translateY(20px)}
+.phone:nth-child(2){transform:translateY(-10px);z-index:2}
+.phone:nth-child(3){transform:rotate(6deg) translateY(20px)}
+.phone:hover{transform:rotate(0) translateY(0) scale(1.05);z-index:10}
+
+/* mini app screens inside phones */
+.scr-home{padding:50px 18px 0;background:var(--bg)}
+.scr-home .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.scr-home .top h5{font-family:"GmarketSansBold";font-size:14px}
+.scr-home .top .b{width:28px;height:28px;border-radius:50%;background:var(--paper);border:1px solid var(--line);display:grid;place-items:center;font-size:11px}
+.scr-home .greet{font-size:18px;line-height:1.2;font-weight:800;letter-spacing:-.02em}
+.scr-home .greet em{font-style:normal;background:var(--brand);padding:0 4px;border-radius:4px}
+.scr-home .input{margin-top:14px;background:var(--paper);border:1px solid var(--ink);border-radius:14px;padding:12px}
+.scr-home .input .ln{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:11px;font-weight:600}
+.scr-home .input .ln + .ln{border-top:1px dashed var(--line);margin-top:4px;padding-top:8px;color:#a8a59c}
+.scr-home .input .ln .d{width:8px;height:8px;border-radius:50%;background:var(--mint);border:1.5px solid var(--ink)}
+.scr-home .input .ln .d.k{background:var(--ink)}
+.scr-home .cta{margin-top:10px;background:var(--brand);border:1px solid var(--ink);border-radius:10px;padding:10px;text-align:center;font-size:11px;font-weight:700}
+.scr-home .promo{margin-top:14px;background:var(--ink);color:#fff;border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:flex-end}
+.scr-home .promo .l{font-size:9px;font-family:"IBM Plex Mono",monospace;color:var(--brand);letter-spacing:.14em}
+.scr-home .promo .h{font-family:"GmarketSansBold";font-size:11px;margin-top:4px;line-height:1.2}
+.scr-home .promo .p{font-family:"GmarketSansBold";font-size:22px;color:var(--brand)}
+
+.scr-match{padding:50px 0 0;background:var(--ink);color:#fff;height:100%}
+.scr-match .top{display:flex;justify-content:space-between;align-items:center;padding:0 18px}
+.scr-match .top h5{font-size:13px;font-weight:700;color:#fff}
+.scr-match .top .b{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:11px;color:#fff}
+.scr-match .radar{position:relative;width:160px;height:160px;margin:30px auto 20px}
+.scr-match .radar .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(6,199,85,.3)}
+.scr-match .radar .ring.r2{inset:20px}
+.scr-match .radar .ring.r3{inset:40px;border-color:rgba(6,199,85,.5)}
+.scr-match .radar .me{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:40px;height:40px;border-radius:50%;background:var(--brand);
+  border:3px solid #000;display:grid;place-items:center;
+  font-family:"GmarketSansBold";font-size:12px;color:var(--ink);z-index:2;
+  animation:bob 2s infinite ease-in-out;
+}
+.scr-match .radar .swp{
   position:absolute;inset:0;border-radius:50%;
-  background:conic-gradient(from 0deg,rgba(255,229,0,0) 0deg,rgba(255,229,0,.35) 60deg,rgba(255,229,0,0) 120deg);
-  animation:sweep 2.4s linear infinite;mask:radial-gradient(circle, transparent 18%, black 19%);
+  background:conic-gradient(from 0deg,rgba(6,199,85,0) 0deg,rgba(6,199,85,.35) 60deg,rgba(6,199,85,0) 120deg);
+  animation:sweep 2s linear infinite;
 }
 @keyframes sweep{to{transform:rotate(360deg)}}
-.radar .blip{
-  position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--ink);
-  opacity:0;animation:blip 2.4s infinite;
-}
-.radar .blip.b1{top:30px;left:80px;animation-delay:.4s}
-.radar .blip.b2{top:80px;right:40px;animation-delay:.9s}
-.radar .blip.b3{bottom:50px;left:60px;animation-delay:1.4s}
-.radar .blip.b4{bottom:90px;right:80px;animation-delay:1.9s}
-@keyframes blip{0%,100%{opacity:0;transform:scale(.6)}30%,70%{opacity:1;transform:scale(1)}}
+.scr-match .lbl{text-align:center;font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--brand);letter-spacing:.18em}
+.scr-match .ttl{text-align:center;font-family:"GmarketSansBold";font-size:13px;margin-top:6px;padding:0 18px;line-height:1.3}
+.scr-match .desc{text-align:center;font-size:10px;color:#aaa;margin-top:8px;padding:0 24px}
+.scr-match .stat{text-align:center;display:flex;justify-content:center;gap:14px;font-family:"IBM Plex Mono",monospace;font-size:9px;color:#888;margin-top:14px}
+.scr-match .stat b{color:#fff}
 
-.mw-meta{padding:0 32px 32px;text-align:center}
-.mw-meta .label{font-family:"IBM Plex Mono",monospace;color:var(--kakao);font-size:11px;letter-spacing:.2em;margin-bottom:8px}
-.mw-meta h2{font-family:"GmarketSansBold",sans-serif;font-size:24px;line-height:1.25}
-.mw-meta p{margin-top:10px;color:#aaa;font-size:13px;line-height:1.6}
-.mw-meta .stat{display:flex;justify-content:center;gap:24px;margin-top:18px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:#888}
-.mw-meta .stat b{color:#fff;font-weight:600}
+.scr-fare{padding:50px 18px 0;background:var(--bg);height:100%}
+.scr-fare h5{font-size:13px;font-weight:700;margin-bottom:14px}
+.scr-fare .map{
+  height:120px;border-radius:14px;border:1px solid var(--line);position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#F9FBF7,#DDEAD8);
+}
+.scr-fare .map .gg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(11,11,11,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(11,11,11,.06) 1px,transparent 1px);
+  background-size:14px 14px;
+}
+.scr-fare .map .road{position:absolute;left:8%;right:8%;top:50%;height:4px;background:var(--ink);border-radius:3px;transform:rotate(-6deg)}
+.scr-fare .map .p{position:absolute;width:14px;height:14px;border-radius:50% 50% 50% 0;transform:translate(-50%,-100%) rotate(-45deg);border:1.5px solid var(--ink);box-shadow:1.5px 1.5px 0 var(--ink)}
+.scr-fare .map .p.a{left:18%;top:60%;background:var(--brand)}
+.scr-fare .map .p.b{left:50%;top:42%;background:#fff}
+.scr-fare .map .p.c{left:82%;top:28%;background:var(--ink)}
+.scr-fare .fare-card{margin-top:14px;background:var(--ink);color:#fff;border-radius:14px;padding:14px}
+.scr-fare .fare-card .l{font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--brand);letter-spacing:.18em}
+.scr-fare .fare-card .num{display:flex;align-items:flex-end;justify-content:space-between;margin-top:6px}
+.scr-fare .fare-card .num b{font-family:"GmarketSansBold";font-size:28px;color:var(--brand)}
+.scr-fare .fare-card .num .s{font-size:10px;color:#999;text-decoration:line-through}
+.scr-fare .fare-card .perr{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;font-size:10px}
+.scr-fare .fare-card .perr div{background:rgba(255,255,255,.08);border-radius:8px;padding:6px}
+.scr-fare .fare-card .perr div b{display:block;font-family:"IBM Plex Mono",monospace;color:var(--brand);font-weight:600;margin-top:2px;font-size:11px}
+.scr-fare .btn{margin-top:12px;background:var(--brand);border:1px solid var(--ink);border-radius:10px;padding:10px;text-align:center;font-size:11px;font-weight:700}
 
-.mw-actions{padding:0 20px 28px}
+/* =========== TESTIMONIALS =========== */
+.test-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:24px;grid-auto-rows:auto}
+.t-card{
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:24px;
+  padding:32px;transition:transform .25s ease;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.t-card:hover{transform:translateY(-4px)}
+.t-card .quote{
+  font-family:"Fraunces",serif;font-weight:400;font-style:italic;
+  font-size:24px;line-height:1.35;color:var(--ink);letter-spacing:-.02em;
+}
+.t-card.big .quote{font-size:32px;line-height:1.25}
+.t-card .quote::before{content:"\201C";font-size:1.1em;color:var(--signal);font-weight:600}
+.t-card .person{display:flex;gap:14px;align-items:center;margin-top:32px;padding-top:20px;border-top:1px dashed var(--line)}
+.t-card .person .av{
+  width:44px;height:44px;border-radius:14px;background:var(--brand);
+  border:1.5px solid var(--ink);display:grid;place-items:center;
+  font-family:"GmarketSansBold";font-size:16px;
+}
+.t-card .person b{display:block;font-size:14px;font-weight:700}
+.t-card .person small{display:block;font-size:11px;color:var(--mute);margin-top:2px}
+.t-card.yellow{background:var(--brand)}
+.t-card.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+.t-card.dark .quote{color:#fff}
+.t-card.dark .quote::before{color:var(--brand)}
+.t-card.dark .person{border-color:rgba(255,255,255,.15)}
+.t-card.dark .person small{color:#999}
 
-/* ====== MATCHES screen (candidate list) ====== */
-.matches-screen .scroll-area{padding:0 0 30px}
-.match-summary{
-  margin:0 20px 12px;background:var(--paper);border:1px solid var(--line);border-radius:14px;
-  padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-size:12px;
+/* =========== FAQ =========== */
+.faq-list{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:0}
+.faq-item{border-top:1.5px solid var(--ink)}
+.faq-item:last-child{border-bottom:1.5px solid var(--ink)}
+.faq-item summary{
+  list-style:none;padding:28px 0;display:flex;justify-content:space-between;align-items:flex-start;
+  cursor:pointer;font-family:"GmarketSansBold";font-size:22px;line-height:1.3;letter-spacing:-.02em;gap:24px;
 }
-.match-summary .lf{display:flex;gap:8px;align-items:center}
-.match-summary .lf b{font-weight:600}
-.match-card{
-  margin:0 20px 12px;background:var(--paper);border:1px solid var(--line);border-radius:20px;
-  padding:16px;position:relative;
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary .q{flex:1}
+.faq-item summary .q .n{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mute);letter-spacing:.16em;display:block;margin-bottom:8px;font-weight:500}
+.faq-item summary .toggle{
+  width:44px;height:44px;border-radius:50%;background:var(--paper);border:1.5px solid var(--ink);
+  display:grid;place-items:center;font-family:"GmarketSansBold";font-size:22px;
+  flex-shrink:0;transition:transform .3s ease,background .25s ease;
 }
-.match-card.best{border-color:var(--ink);box-shadow:0 8px 24px -8px rgba(0,0,0,.12)}
-.match-card.best::before{
-  content:"BEST MATCH";position:absolute;top:-9px;left:16px;
-  background:var(--ink);color:var(--kakao);font-family:"IBM Plex Mono",monospace;
-  font-size:10px;letter-spacing:.18em;padding:3px 8px;border-radius:6px;
-}
-.mc-head{display:flex;gap:12px;align-items:center}
-.mc-head .av{
-  width:48px;height:48px;border-radius:14px;background:var(--kakao);
-  display:grid;place-items:center;font-family:"GmarketSansBold",sans-serif;font-size:18px;
-  border:1px solid var(--ink);
-}
-.mc-head .name{flex:1}
-.mc-head .name b{font-size:15px;font-weight:700;display:block}
-.mc-head .name small{font-size:11px;color:var(--mute);display:block;margin-top:2px}
-.mc-head .star{font-size:12px;font-weight:700;background:var(--bg);padding:6px 10px;border-radius:999px;border:1px solid var(--line)}
-.mc-detail{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
-.mc-detail .d{background:var(--bg);border-radius:10px;padding:10px;text-align:center}
-.mc-detail .d small{font-size:10px;color:var(--mute);display:block;letter-spacing:.04em}
-.mc-detail .d b{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;margin-top:2px;display:block}
-.mc-savings{margin-top:12px;background:var(--kakao);border:1px solid var(--ink);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
-.mc-savings small{font-size:11px;font-weight:600}
-.mc-savings b{font-family:"GmarketSansBold",sans-serif;font-size:18px}
+.faq-item[open] summary .toggle{transform:rotate(45deg);background:var(--brand)}
+.faq-item .a{padding:0 0 28px;font-size:15px;line-height:1.7;color:var(--ink-2);max-width:680px}
+.faq-item .a a{color:var(--ink);text-decoration:underline}
 
-/* ====== CONFIRM (route + fare) ====== */
-.confirm-screen .map-block{
-  height:280px;position:relative;border-bottom:1px solid var(--line);
+/* =========== FINAL CTA =========== */
+.final-cta{
+  background:var(--brand);
+  border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);
+  padding:100px 32px;position:relative;overflow:hidden;
+}
+.final-cta::before{
+  content:"";position:absolute;inset:0;
   background:
-    radial-gradient(600px 200px at 80% 110%, rgba(255,229,0,.4), transparent 60%),
-    linear-gradient(180deg,#F7F4E9,#EDEAD8);
+    radial-gradient(600px 300px at 0% 100%, rgba(11,11,11,.05), transparent 60%),
+    radial-gradient(600px 300px at 100% 0%, rgba(255,79,24,.1), transparent 60%);
 }
-.map-block .grid-bg{position:absolute;inset:0;background-image:
-  linear-gradient(rgba(11,11,11,.06) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(11,11,11,.06) 1px,transparent 1px);
-  background-size:28px 28px;mask-image:radial-gradient(ellipse at center,black 60%,transparent 100%);
+.final-cta .inner{position:relative;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:end}
+.final-cta .kicker{
+  display:inline-flex;align-items:center;gap:10px;font-family:"IBM Plex Mono",monospace;
+  font-size:11px;letter-spacing:.22em;background:var(--ink);color:var(--brand);
+  padding:6px 12px;border-radius:6px;margin-bottom:24px;
 }
-.map-block .road{position:absolute;height:6px;background:var(--ink);border-radius:4px}
-.map-block .road.r1{left:10%;right:8%;top:38%;transform:rotate(-6deg)}
-.map-block .road.r2{left:14%;right:20%;top:64%;transform:rotate(5deg);height:4px;background:#444}
-.map-block .road.r3{width:90px;top:22%;right:10%;transform:rotate(58deg)}
-.map-block .route-line{
-  position:absolute;left:14%;right:18%;top:60%;height:3px;
-  background:repeating-linear-gradient(90deg,var(--signal) 0 8px,transparent 8px 14px);
-  transform:rotate(-12deg);
-}
-.map-block .pin{position:absolute;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%);gap:4px}
-.map-block .pin .pip{width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid var(--ink);display:grid;place-items:center;font-size:12px;font-weight:700;box-shadow:3px 3px 0 var(--ink)}
-.map-block .pin .pip span{transform:rotate(45deg)}
-.map-block .pin .nm{font-size:10px;font-weight:700;background:var(--ink);color:#fff;padding:2px 6px;border-radius:4px;white-space:nowrap}
-.map-block .pin.me .pip{background:var(--kakao)}
-.map-block .pin.mate .pip{background:#fff}
-.map-block .pin.via .pip{background:var(--mint);color:#fff}
-.map-block .pin.dest .pip{background:var(--ink);color:var(--kakao)}
-
-.cf-sheet{flex:1;background:var(--paper);border-top-left-radius:24px;border-top-right-radius:24px;margin-top:-20px;position:relative;padding:14px 0 18px;overflow-y:auto}
-.cf-sheet h2{padding:0 20px;font-size:18px;font-weight:800;margin-top:8px}
-.cf-sheet .lead{padding:0 20px;font-size:13px;color:var(--mute);margin-top:4px}
-
-.route-list{padding:14px 20px 8px}
-.r-step{display:flex;gap:14px;padding:10px 0;position:relative}
-.r-step .vl{position:absolute;left:11px;top:24px;bottom:-2px;width:2px;background:var(--line)}
-.r-step:last-child .vl{display:none}
-.r-step .dt{width:24px;display:flex;justify-content:center;align-items:flex-start;padding-top:4px}
-.r-step .dt .p{width:12px;height:12px;border-radius:50%;background:var(--mint);border:2px solid var(--ink);position:relative;z-index:2}
-.r-step .dt .p.via{background:#fff}
-.r-step .dt .p.end{background:var(--ink)}
-.r-step .info{flex:1}
-.r-step .info b{font-size:14px;display:block}
-.r-step .info small{font-size:11px;color:var(--mute);display:block;margin-top:2px}
-.r-step .info .who{margin-top:4px}
-.r-step .km{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mute)}
-
-.fare-box{margin:0 20px;background:var(--bg);border-radius:18px;padding:16px;border:1px solid var(--line)}
-.fare-box h3{font-size:13px;color:var(--mute);font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-.fare-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:6px 0}
-.fare-row.total{padding-top:12px;border-top:1px solid var(--line);margin-top:6px;font-weight:800}
-.fare-row.total b{font-family:"GmarketSansBold",sans-serif;font-size:22px}
-
-.split-box{margin:14px 20px 0;background:var(--ink);color:#fff;border-radius:18px;padding:16px}
-.split-box .lbl{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.18em;color:var(--kakao)}
-.split-box .you{display:flex;justify-content:space-between;align-items:end;margin-top:6px}
-.split-box .you small{display:block;color:#999;font-size:11px}
-.split-box .you b{font-family:"GmarketSansBold",sans-serif;font-size:34px;color:var(--kakao)}
-.split-box .you b small{display:block;color:#777;text-align:right;font-size:11px;text-decoration:line-through;margin-bottom:2px}
-.split-box .per{margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px}
-.split-box .per div{background:rgba(255,255,255,.08);border-radius:10px;padding:8px 10px}
-.split-box .per div b{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--kakao);display:block;margin-top:2px}
-
-.consent{margin:14px 20px 0;display:flex;gap:10px;align-items:flex-start;font-size:12px;color:var(--mute);line-height:1.5}
-.consent input{margin-top:3px;accent-color:var(--ink)}
-
-.bottom-bar{
-  flex-shrink:0;padding:14px 20px 24px;background:var(--paper);border-top:1px solid var(--line);
-  display:flex;gap:10px;
-}
-.bottom-bar .btn{flex:1}
-
-/* ====== PAYMENT ====== */
-.pay-sum{margin:8px 20px 14px;background:var(--ink);color:#fff;border-radius:18px;padding:18px}
-.pay-sum .lbl{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.18em;color:var(--kakao)}
-.pay-sum .amount{font-family:"GmarketSansBold",sans-serif;font-size:40px;color:#fff;margin-top:6px}
-.pay-sum .desc{font-size:12px;color:#999;margin-top:6px}
-
-.pm-list{padding:0 20px}
-.pm-list h3{font-size:13px;color:var(--mute);font-weight:600;margin:18px 0 10px}
-.pm-row{
-  background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px;
-  display:flex;gap:12px;align-items:center;margin-bottom:8px;
-}
-.pm-row.sel{border-color:var(--ink);background:#FFFBE0}
-.pm-row .logo{
-  width:46px;height:30px;border-radius:6px;background:var(--ink);display:grid;place-items:center;
-  color:#fff;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.06em;
-}
-.pm-row .logo.kakao{background:var(--kakao);color:var(--ink)}
-.pm-row .logo.toss{background:#0064FF}
-.pm-row .info{flex:1}
-.pm-row .info b{font-size:13px;display:block}
-.pm-row .info small{font-size:11px;color:var(--mute);display:block}
-.pm-row .rd{
-  width:22px;height:22px;border-radius:50%;border:2px solid var(--line);
-}
-.pm-row.sel .rd{border-color:var(--ink);background:radial-gradient(circle,var(--ink) 0 5px,#fff 6px 9px,var(--ink) 9px 22px)}
-
-/* ====== RIDE (운행) ====== */
-.ride-screen{background:var(--ink);color:#fff}
-.ride-screen .scroll-area{padding:0}
-.ride-map{
-  height:55%;position:relative;
-  background:
-    radial-gradient(500px 200px at 70% 100%, rgba(255,229,0,.18), transparent 60%),
-    linear-gradient(180deg,#1a1a1a,#0a0a0a);
-}
-.ride-map .grid-bg{position:absolute;inset:0;background-image:
-  linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:36px 36px;
-}
-.ride-map .road{position:absolute;height:8px;background:#2a2a2a;border-radius:4px}
-.ride-map .road.r1{left:6%;right:6%;top:46%;transform:rotate(-6deg)}
-.ride-map .road.r2{left:14%;right:24%;top:70%;transform:rotate(5deg);height:5px}
-.ride-map .road.r3{width:120px;top:22%;right:8%;transform:rotate(58deg)}
-.ride-map .glow{
-  position:absolute;left:30%;top:48%;width:120px;height:120px;border-radius:50%;
-  background:radial-gradient(circle,rgba(255,229,0,.4),transparent 70%);
-  animation:bob 2.4s infinite ease-in-out;
-}
-.ride-map .car{
-  position:absolute;left:30%;top:48%;transform:translate(-50%,-50%) rotate(-6deg);
-  width:50px;height:50px;border-radius:14px;background:var(--kakao);border:2px solid #fff;
-  display:grid;place-items:center;font-size:24px;z-index:3;
-  box-shadow:0 8px 22px rgba(255,229,0,.4);
-}
-.ride-map .pin-dest{
-  position:absolute;left:78%;top:24%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;gap:4px;
-}
-.ride-map .pin-dest .pip{width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#fff;border:2px solid var(--kakao);display:grid;place-items:center}
-.ride-map .pin-dest .pip span{transform:rotate(45deg);font-size:12px;font-weight:700;color:var(--ink)}
-.ride-map .pin-dest .nm{font-size:10px;font-weight:700;background:#fff;color:var(--ink);padding:2px 6px;border-radius:4px}
-.ride-map .route-trail{
-  position:absolute;left:34%;right:24%;top:38%;height:4px;
-  background:repeating-linear-gradient(90deg,var(--kakao) 0 8px,transparent 8px 14px);
-  transform:rotate(-18deg);opacity:.7;
+.final-cta h2{font-family:"GmarketSansBold";font-size:clamp(40px,6vw,80px);line-height:.98;letter-spacing:-.035em}
+.final-cta p{margin-top:20px;font-size:17px;line-height:1.55;color:var(--ink-2);max-width:500px}
+.final-cta .ascii{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:rgba(11,11,11,.4);
+  line-height:1.1;white-space:pre;margin-top:32px;
 }
 
-.ride-sheet{
-  flex:1;background:var(--paper);color:var(--ink);
-  border-top-left-radius:26px;border-top-right-radius:26px;
-  margin-top:-22px;padding:16px 0 0;display:flex;flex-direction:column;
-  position:relative;z-index:2;
-}
-.ride-sheet .stat-pill{
-  margin:0 auto 12px;display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--kakao);
-  padding:8px 14px;border-radius:999px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
-}
-.ride-sheet .stat-pill .dot-live{background:var(--kakao)}
+/* =========== FOOTER =========== */
+footer{padding:60px 32px 40px;background:var(--ink);color:#fff}
+footer .inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
+footer .brand{display:flex;align-items:center;gap:10px;font-family:"GmarketSansBold";font-size:22px;letter-spacing:-.02em}
+footer .brand .logo{width:34px;height:34px;border-radius:10px;background:var(--brand);border:1.5px solid var(--brand);display:grid;place-items:center;color:var(--ink);font-family:"GmarketSansBold";font-size:14px;transform:rotate(-6deg)}
+footer .tag{font-size:13px;color:#aaa;margin-top:14px;max-width:280px;line-height:1.55}
+footer h6{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;color:var(--brand);margin-bottom:18px;text-transform:uppercase}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+footer ul a{font-size:13px;color:#bbb;transition:color .2s ease}
+footer ul a:hover{color:#fff}
+footer .meta{max-width:var(--max);margin:30px auto 0;display:flex;justify-content:space-between;align-items:center;font-family:"IBM Plex Mono",monospace;font-size:11px;color:#777;letter-spacing:.06em}
+footer .meta .made{color:var(--brand)}
 
-.ride-status{padding:0 20px}
-.ride-status h2{font-size:22px;font-weight:800;letter-spacing:-.02em}
-.ride-status .eta{font-size:13px;color:var(--mute);margin-top:4px}
-
-.timeline{display:flex;justify-content:space-between;align-items:center;padding:18px 20px 4px;position:relative}
-.timeline::before{content:"";position:absolute;left:32px;right:32px;top:50%;height:2px;background:var(--line);z-index:0;transform:translateY(-7px)}
-.timeline .ts{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10px;color:var(--mute);font-weight:600}
-.timeline .ts .dt{width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--line)}
-.timeline .ts.on .dt{background:var(--kakao);border-color:var(--ink)}
-.timeline .ts.on{color:var(--ink)}
-.timeline .ts.done .dt{background:var(--ink);border-color:var(--ink)}
-
-.driver-card{margin:18px 20px 0;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;align-items:center;gap:12px}
-.driver-card .av{
-  width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--kakao);
-  display:grid;place-items:center;font-family:"GmarketSansBold",sans-serif;font-size:16px;
-}
-.driver-card .info{flex:1}
-.driver-card .info b{font-size:14px;font-weight:700;display:block}
-.driver-card .info small{font-size:11px;color:var(--mute);display:block;margin-top:2px}
-.driver-card .info .car{font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--ink);margin-top:4px}
-.driver-card .actions{display:flex;gap:8px}
-.driver-card .actions button{
-  width:38px;height:38px;border-radius:12px;background:var(--bg);border:1px solid var(--line);
-  display:grid;place-items:center;font-size:16px;
-}
-
-.mates-row{padding:14px 20px 0;display:flex;gap:8px;overflow-x:auto}
-.mates-row::-webkit-scrollbar{display:none}
-.mate-pill{
-  flex-shrink:0;background:var(--bg);border:1px solid var(--line);border-radius:14px;
-  padding:10px 14px;display:flex;align-items:center;gap:10px;
-}
-.mate-pill .av{width:30px;height:30px;border-radius:9px;background:var(--kakao);display:grid;place-items:center;font-size:12px;font-weight:700;border:1px solid var(--ink)}
-.mate-pill .info b{font-size:12px;display:block}
-.mate-pill .info small{font-size:10px;color:var(--mute)}
-.mate-pill.paid{background:#E9F7F1}
-.mate-pill.paid::after{content:"✓";color:var(--mint);font-weight:700;margin-left:4px}
-
-.safety-strip{margin:14px 20px;background:#FFF8DC;border:1px solid var(--kakao);border-radius:16px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.safety-strip .lt{display:flex;gap:10px;align-items:center}
-.safety-strip .lt .ic{font-size:18px}
-.safety-strip .lt b{font-size:12px;font-weight:700;display:block}
-.safety-strip .lt small{font-size:11px;color:var(--mute)}
-
-.emergency-btn{
-  margin:6px 20px 18px;display:flex;align-items:center;justify-content:center;gap:8px;
-  background:var(--signal);color:#fff;border-radius:16px;padding:16px;font-weight:800;font-size:15px;
-  border:1px solid #B23000;
-}
-
-/* ====== COMPLETE ====== */
-.complete-screen .appbar{padding-top:64px}
-.complete-card{
-  margin:10px 20px 14px;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:24px;text-align:center;
-}
-.complete-card .stamp{
-  display:inline-flex;align-items:center;gap:8px;background:var(--kakao);
-  padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid var(--ink);
-}
-.complete-card h2{font-family:"GmarketSansBold",sans-serif;font-size:24px;margin-top:14px;line-height:1.25}
-.complete-card .saved{font-family:"GmarketSansBold",sans-serif;font-size:52px;color:var(--ink);margin-top:14px}
-.complete-card .saved small{font-size:15px;color:var(--mute);font-family:"Pretendard Variable",sans-serif;font-weight:500}
-
-.receipt{margin:0 20px 14px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:18px}
-.receipt h3{font-size:13px;color:var(--mute);font-weight:600;margin-bottom:10px;letter-spacing:.04em}
-.receipt-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px dashed var(--line-2)}
-.receipt-row:last-child{border-bottom:none}
-.receipt-row b{font-family:"IBM Plex Mono",monospace;font-weight:600}
-
-.review-card{margin:0 20px 24px;background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:18px}
-.review-card h3{font-size:14px;font-weight:700;margin-bottom:4px}
-.review-card .sub{font-size:12px;color:var(--mute)}
-.review-card .stars{display:flex;justify-content:space-between;margin:14px 0 10px}
-.review-card .stars button{font-size:30px;background:none;color:#ddd}
-.review-card .stars button.on{color:var(--kakao);text-shadow:0 0 0 var(--ink)}
-.tags{display:flex;flex-wrap:wrap;gap:6px}
-.tags .tag-btn{
-  background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:11px;font-weight:600;
-}
-.tags .tag-btn.on{background:var(--kakao);border-color:var(--ink)}
-.review-card textarea{
-  margin-top:12px;width:100%;min-height:60px;border:1px solid var(--line);border-radius:12px;
-  padding:10px 12px;font-size:13px;outline:none;resize:none;
-}
-.review-card textarea:focus{border-color:var(--ink)}
-
-/* ====== ACTIVITY / CHAT / NOTIFY / PROFILE ====== */
-.list-screen .scroll-area{padding:0 20px 24px}
-.list-screen h2.tab-title{font-size:24px;font-weight:800;padding:0 20px 14px;letter-spacing:-.02em}
-
-.act-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px}
-.act-card .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.act-card .top .date{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mute)}
-.act-card .top .st{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px}
-.act-card .top .st.ok{background:#E9F7F1;color:#067A60}
-.act-card .top .st.no{background:#FFE2D8;color:#C2350F}
-.act-card .route{display:flex;gap:12px;align-items:center}
-.act-card .route .nodes{flex:1}
-.act-card .route .nodes b{font-size:14px;display:block}
-.act-card .route .nodes small{font-size:11px;color:var(--mute);display:block;margin-top:2px}
-.act-card .route .nodes .ar{color:var(--mute);font-family:"IBM Plex Mono",monospace;margin:0 2px}
-.act-card .route .amt{text-align:right}
-.act-card .route .amt b{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:700;display:block}
-.act-card .route .amt small{font-size:10px;color:var(--mint);display:block;margin-top:2px}
-
-.chat-screen .scroll-area{padding:0}
-.chat-list{padding:0 20px 16px}
-.chat-row{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line-2)}
-.chat-row .av{width:48px;height:48px;border-radius:50%;background:var(--kakao);display:grid;place-items:center;font-family:"GmarketSansBold",sans-serif;font-size:16px;border:1px solid var(--ink);position:relative}
-.chat-row .av .badge{position:absolute;top:-2px;right:-2px;background:var(--signal);color:#fff;font-size:10px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-weight:700;border:2px solid var(--bg)}
-.chat-row .body{flex:1}
-.chat-row .body .top{display:flex;justify-content:space-between}
-.chat-row .body .top b{font-size:14px}
-.chat-row .body .top .tm{font-size:11px;color:var(--mute);font-family:"IBM Plex Mono",monospace}
-.chat-row .body .last{font-size:12px;color:var(--mute);margin-top:3px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-
-.notify-row{
-  background:var(--paper);border:1px solid var(--line);border-radius:14px;
-  padding:14px;display:flex;gap:12px;margin-bottom:8px;
-}
-.notify-row.unread{border-color:var(--ink);background:#FFFBE0}
-.notify-row .ic{width:36px;height:36px;border-radius:12px;background:var(--kakao);border:1px solid var(--ink);display:grid;place-items:center;font-size:16px;flex-shrink:0}
-.notify-row.unread::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--signal);align-self:start;margin-top:6px}
-.notify-row .body{flex:1}
-.notify-row .body b{font-size:13px;display:block}
-.notify-row .body p{font-size:12px;color:var(--mute);margin-top:3px;line-height:1.5}
-.notify-row .body .tm{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--mute);margin-top:6px;display:block}
-
-.profile-screen .scroll-area{padding:0 0 30px}
-.profile-hero{
-  margin:0 20px;background:linear-gradient(135deg,var(--kakao),var(--kakao-hot));
-  border:1px solid var(--ink);border-radius:24px;padding:22px;position:relative;overflow:hidden;
-}
-.profile-hero::after{
-  content:"";position:absolute;right:-30px;bottom:-30px;width:140px;height:140px;border-radius:50%;
-  background:var(--ink);opacity:.08;
-}
-.profile-hero .meta{display:flex;gap:14px;align-items:center}
-.profile-hero .meta .av{
-  width:60px;height:60px;border-radius:18px;background:var(--ink);color:var(--kakao);
-  display:grid;place-items:center;font-family:"GmarketSansBold",sans-serif;font-size:22px;border:1px solid var(--ink);
-}
-.profile-hero .meta b{font-size:18px;font-weight:800;display:block;letter-spacing:-.01em}
-.profile-hero .meta small{font-size:11px;color:var(--ink-2);display:block;margin-top:2px}
-.profile-hero .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
-.profile-hero .stats .s{background:rgba(255,255,255,.5);border:1px solid var(--ink);border-radius:14px;padding:10px;text-align:center}
-.profile-hero .stats .s small{font-size:10px;color:var(--ink);display:block;letter-spacing:.04em}
-.profile-hero .stats .s b{font-family:"GmarketSansBold",sans-serif;font-size:16px;display:block;margin-top:2px}
-
-.list-section{padding:18px 20px 0}
-.list-section h3{font-size:12px;color:var(--mute);font-weight:600;margin-bottom:8px;letter-spacing:.06em;text-transform:uppercase}
-.menu-row{
-  background:var(--paper);border:1px solid var(--line);border-top:none;
-  padding:14px 16px;display:flex;align-items:center;gap:12px;
-}
-.menu-row:first-of-type{border-top:1px solid var(--line);border-top-left-radius:14px;border-top-right-radius:14px}
-.menu-row:last-of-type{border-bottom-left-radius:14px;border-bottom-right-radius:14px}
-.menu-row .ic{width:34px;height:34px;border-radius:10px;background:var(--bg);display:grid;place-items:center;font-size:15px}
-.menu-row .label{flex:1;font-size:14px;font-weight:600}
-.menu-row .val{font-size:12px;color:var(--mute)}
-.menu-row .ch{color:#bbb}
-.menu-row.danger .label{color:var(--signal)}
-
-/* ====== MODAL (emergency, request, chat-thread) ====== */
-.modal-sheet{
-  position:absolute;left:0;right:0;bottom:0;background:var(--paper);
-  border-top-left-radius:28px;border-top-right-radius:28px;
-  padding:14px 20px 32px;max-height:80%;overflow-y:auto;
-}
-.modal-sheet h3{font-size:18px;font-weight:800;margin:8px 0 4px;letter-spacing:-.02em}
-.modal-sheet p.sub{font-size:13px;color:var(--mute);margin-bottom:14px}
-
-/* request modal */
-.req-card{background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}
-.req-card .head{display:flex;gap:12px;align-items:center}
-.req-card .av{width:44px;height:44px;border-radius:12px;background:var(--kakao);display:grid;place-items:center;font-family:"GmarketSansBold",sans-serif;font-size:16px;border:1px solid var(--ink)}
-.req-card .head b{font-size:14px;display:block}
-.req-card .head small{font-size:11px;color:var(--mute);display:block}
-.req-card .ddl{margin-top:12px;background:var(--ink);color:var(--kakao);padding:8px 12px;border-radius:10px;font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;display:flex;justify-content:space-between}
-
-/* emergency modal */
-.emerg{padding:32px 24px;text-align:center;background:var(--signal);color:#fff;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center}
-.emerg .big{
-  width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.15);
-  display:grid;place-items:center;animation:pulse-red 1.4s infinite;margin-bottom:30px;
-  border:3px solid #fff;
-}
-@keyframes pulse-red{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,255,255,.4)}50%{transform:scale(1.04);box-shadow:0 0 0 24px rgba(255,255,255,0)}}
-.emerg h2{font-family:"GmarketSansBold",sans-serif;font-size:30px;letter-spacing:-.02em}
-.emerg p{margin-top:14px;font-size:14px;opacity:.9;line-height:1.5}
-.emerg .countdown{font-family:"IBM Plex Mono",monospace;font-size:48px;margin:10px 0;font-weight:600}
-
-/* chat thread */
-.chat-thread{padding:0;display:flex;flex-direction:column;height:100%}
-.chat-thread .msgs{flex:1;overflow-y:auto;padding:14px 20px 8px}
-.chat-thread .msg{margin-bottom:10px;display:flex;gap:8px}
-.chat-thread .msg .b{
-  max-width:80%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.45;
-  background:var(--paper);border:1px solid var(--line);
-}
-.chat-thread .msg.me{justify-content:flex-end}
-.chat-thread .msg.me .b{background:var(--kakao);border-color:var(--ink)}
-.chat-thread .pinned{
-  margin:0 20px 10px;background:var(--ink);color:var(--kakao);border-radius:12px;
-  padding:10px 14px;font-size:12px;display:flex;gap:8px;align-items:center;
-}
-.chat-thread .input-bar{
-  flex-shrink:0;padding:10px 14px 20px;background:var(--paper);border-top:1px solid var(--line);
-  display:flex;gap:8px;align-items:center;
-}
-.chat-thread .input-bar input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:18px;padding:11px 16px;font-size:13px;outline:none}
-.chat-thread .input-bar button{width:42px;height:42px;border-radius:50%;background:var(--ink);color:var(--kakao);display:grid;place-items:center;font-size:16px}
-
-/* toast */
+/* =========== TOAST =========== */
 .toast{
-  position:absolute;left:20px;right:20px;top:60px;background:var(--ink);color:#fff;
-  padding:14px 18px;border-radius:14px;font-size:13px;font-weight:600;
-  display:flex;gap:10px;align-items:center;z-index:60;
-  opacity:0;transform:translateY(-20px);transition:all .35s ease;
-  box-shadow:0 14px 30px -8px rgba(0,0,0,.4);
+  position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:#fff;padding:14px 20px;border-radius:14px;font-size:13px;font-weight:600;
+  display:flex;gap:12px;align-items:center;z-index:1000;opacity:0;transition:all .3s ease;
+  box-shadow:0 20px 50px -10px rgba(0,0,0,.4);border:1.5px solid var(--ink);
 }
-.toast.show{opacity:1;transform:none}
-.toast b{color:var(--kakao);font-weight:700}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.ok{background:#067A60;border-color:#067A60}
+.toast.err{background:var(--signal);border-color:var(--signal)}
+.toast svg{width:18px;height:18px;flex-shrink:0}
 
-/* responsive — phone */
-@media (max-width:480px){
-  body{background:var(--bg)}
-  .device{width:100vw;height:100vh;max-height:100vh;border-radius:0;padding:0;box-shadow:none;background:var(--bg)}
-  .device::before,.device::after{display:none}
-  .screen-stage{border-radius:0}
-  .status-bar{display:none}
+/* =========== ANIMATIONS =========== */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.85,.25,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .marquee-bar .track{animation:none}
+}
+
+/* =========== RESPONSIVE =========== */
+@media (max-width:1024px){
+  .hero .grid{grid-template-columns:1fr;gap:48px}
+  .hero-visual{height:520px}
+  .stats-strip .row{grid-template-columns:repeat(2,1fr);gap:24px}
+  .why-grid{grid-template-columns:1fr;gap:16px}
+  .steps{grid-template-columns:repeat(2,1fr);gap:32px}
+  .steps::before{display:none}
+  .step:not(:last-child)::after{display:none}
+  .feature-magnet .inner{grid-template-columns:1fr;gap:48px}
+  .feature-magnet .card{padding:48px 32px;box-shadow:10px 10px 0 var(--ink)}
+  .test-grid{grid-template-columns:1fr 1fr;gap:16px}
+  .t-card.big{grid-column:span 2}
+  .final-cta .inner{grid-template-columns:1fr;gap:32px}
+  footer .inner{grid-template-columns:1fr 1fr;gap:32px}
+  .container{padding:0 20px}
+  .how{padding:60px 32px;margin:0 20px}
+}
+
+@media (max-width:640px){
+  .container{padding:0 18px}
+  nav.top .links{display:none}
+  nav.top .inner{padding:12px 18px}
+  .section{padding:80px 0}
+  .hero{padding:32px 0 60px}
+  .hero .eyebrow{font-size:10px;padding:5px 10px}
+  .hero-visual{height:420px}
+  .hero-visual .fare{width:200px;padding:14px;right:14px;bottom:14px}
+  .hero-visual .fare .you b{font-size:24px}
+  .hero-visual .pin .pip{width:32px;height:32px}
+  .hero-visual .radar{width:140px;height:140px}
+  .magnet{padding:20px;box-shadow:4px 4px 0 var(--ink)}
+  .magnet::before{font-size:9px}
+  .magnet .head h3{font-size:18px}
+  .stats-strip .row{grid-template-columns:1fr 1fr;padding:24px 18px;gap:18px}
+  .stats-strip .stat .v{font-size:30px}
+  .section-head{margin-bottom:40px}
+  .section-head h2{font-size:36px}
+  .why-card{padding:24px}
+  .why-card .num{font-size:48px;top:20px;right:24px}
+  .how{padding:48px 24px;margin:0 18px;border-radius:24px}
+  .how-head{flex-direction:column;align-items:flex-start;gap:16px;margin-bottom:32px}
+  .steps{grid-template-columns:1fr;gap:24px}
+  .step{padding:0}
+  .step .n{width:72px;height:72px;font-size:32px;margin-bottom:18px}
+  .feature-magnet{padding:80px 18px}
+  .feature-magnet .card{padding:32px 22px;box-shadow:6px 6px 0 var(--ink)}
+  .feature-magnet .card::after{font-size:200px;right:0;bottom:-50px}
+  .feature-magnet .stamp{width:78px;height:78px;font-size:11px;top:-10px;right:-10px}
+  .test-grid{grid-template-columns:1fr;gap:14px}
+  .t-card.big{grid-column:auto}
+  .t-card .quote{font-size:18px}
+  .t-card.big .quote{font-size:22px}
+  .faq-item summary{font-size:16px;padding:20px 0}
+  .faq-item .a{font-size:14px;padding-bottom:20px}
+  .final-cta{padding:64px 18px}
+  footer{padding:48px 18px 32px}
+  footer .inner{grid-template-columns:1fr 1fr;gap:24px}
+  footer .meta{flex-direction:column;gap:8px;text-align:center}
 }
 </style>
 </head>
 <body>
 
-<div class="device">
-  <div class="screen-stage" id="stage">
-
-    <!-- status bar (cosmetic) -->
-    <div class="status-bar"><span>9:41</span><span class="right">5G · ◐ · 84%</span></div>
-
-    <!-- TOAST -->
-    <div class="toast" id="toast"><span>📍</span><span id="toastMsg"></span></div>
-
-    <!-- ============== HOME ============== -->
-    <section class="screen active" id="screen-home" data-tab="home">
-      <div class="appbar">
-        <div>
-          <h1 class="display" style="font-size:18px">함께타다</h1>
-          <p class="home-hello">안녕하세요 <b>김대리</b>님</p>
-        </div>
-        <button class="icon-btn" onclick="goto('notify')">🔔</button>
-      </div>
-
-      <div class="scroll-area">
-        <div class="home-hero">
-          <h2 class="home-title">오늘도 <em>합리적</em>인<br/>출근길 함께해요</h2>
-        </div>
-
-        <div class="search-bar">
-          <div class="sb-row" onclick="goto('search','from')">
-            <div class="ix"><div class="pip"></div></div>
-            <div class="ph" id="originPh">강남역 11번 출구</div>
-            <button class="swap" onclick="event.stopPropagation();swapPlaces()">⇅</button>
-          </div>
-          <div class="sb-row" onclick="goto('search','to')">
-            <div class="ix"><div class="pip dest"></div></div>
-            <div class="ph" id="destPh" style="color:#b8b5ad">어디로 가세요?</div>
-          </div>
-          <div class="sb-cta">
-            <button class="btn primary block" onclick="startMatching()">함께 탈 사람 찾기 →</button>
-          </div>
-        </div>
-
-        <div class="quick">
-          <h3>자주 가는 곳 <span style="color:var(--ink);font-weight:700">관리</span></h3>
-          <div class="fav-row">
-            <div class="fav" onclick="setDest('회사 · 광화문 D타워','광화문 D타워')">
-              <div class="ic">🏢</div>
-              <div><div class="nm">회사</div><div class="ad">광화문 D타워</div></div>
-            </div>
-            <div class="fav" onclick="setDest('집 · 마포구 망원동','마포구 망원동')">
-              <div class="ic">🏠</div>
-              <div><div class="nm">집</div><div class="ad">마포구 망원동</div></div>
-            </div>
-            <div class="fav" onclick="setDest('헬스장 · 신논현','신논현 OPEN PT')">
-              <div class="ic">💪</div>
-              <div><div class="nm">헬스장</div><div class="ad">신논현 OPEN PT</div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="promo-card">
-          <div>
-            <div class="tag">PROMOTION · 신규</div>
-            <h4>첫 동승 분담금<br/>최대 70% 추가 할인</h4>
-            <div class="more">2026.06.30까지 · 자세히 보기 →</div>
-          </div>
-          <div class="pct">-70<small style="font-size:18px">%</small></div>
-        </div>
-
-        <div class="savings">
-          <div class="lt">
-            <small>이번 달 누적 절감액</small>
-            <b>₩ 38,400</b>
-          </div>
-          <div class="rt"><b>6월 동승 횟수</b>4회 · 평균 -52%</div>
-        </div>
-
-        <div class="activity-mini">
-          <h3>최근 이용 <span style="color:var(--ink);font-weight:700" onclick="switchTab('activity')">전체보기</span></h3>
-          <div class="mini-row" onclick="switchTab('activity')">
-            <div class="av">🚖</div>
-            <div class="info"><b>강남역 → 광화문 D타워</b><small>06.14 화 · 2인 동승</small></div>
-            <div class="amt">-₩ 6,400</div>
-          </div>
-          <div class="mini-row" onclick="switchTab('activity')">
-            <div class="av">🚖</div>
-            <div class="info"><b>역삼역 → 망원동</b><small>06.11 토 · 3인 동승</small></div>
-            <div class="amt">-₩ 9,800</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tabbar">
-        <button class="on" onclick="switchTab('home')"><span class="ic">🏠</span>홈</button>
-        <button onclick="switchTab('activity')"><span class="ic">📋</span>이용내역</button>
-        <button class="center" onclick="startMatching()"><span class="ic">🚖</span></button>
-        <button onclick="switchTab('chat')"><span class="ic">💬</span>채팅</button>
-        <button onclick="switchTab('profile')"><span class="ic">👤</span>나</button>
-      </div>
-    </section>
-
-    <!-- ============== SEARCH ============== -->
-    <section class="screen" id="screen-search">
-      <div class="appbar solid">
-        <button class="back" onclick="back()">←</button>
-        <h1>장소 검색</h1>
-        <button class="icon-btn">🎤</button>
-      </div>
-      <div class="scroll-area">
-        <div class="search-wrap">
-          <div class="search-input">
-            <div class="ln"><div class="ix"><div class="pip"></div></div><input id="originInput" value="강남역 11번 출구" /><button class="x">✕</button></div>
-            <div class="ln"><div class="ix"><div class="pip dest"></div></div><input id="destInput" placeholder="목적지 입력" /><button class="x">✕</button></div>
-          </div>
-
-          <div class="search-list">
-            <div class="sr-section">즐겨찾기 <span>편집</span></div>
-            <div class="sr" onclick="pickPlace('회사 · 광화문 D타워','광화문 D타워',3.2)"><div class="ic">🏢</div><div class="info"><b>회사</b><small>광화문 D타워 5층</small></div><div class="km">3.2km</div></div>
-            <div class="sr" onclick="pickPlace('집 · 마포구 망원동','마포구 망원동',8.4)"><div class="ic">🏠</div><div class="info"><b>집</b><small>마포구 망원동 412-3</small></div><div class="km">8.4km</div></div>
-
-            <div class="sr-section">최근 검색 <span>전체 삭제</span></div>
-            <div class="sr" onclick="pickPlace('용산역','용산역 1번 출구',5.1)"><div class="ic">🕐</div><div class="info"><b>용산역</b><small>서울 용산구 한강대로23길</small></div><div class="km">5.1km</div></div>
-            <div class="sr" onclick="pickPlace('홍대입구역','홍대입구역 9번 출구',7.2)"><div class="ic">🕐</div><div class="info"><b>홍대입구역</b><small>서울 마포구 양화로 188</small></div><div class="km">7.2km</div></div>
-            <div class="sr" onclick="pickPlace('성수동 카페거리','성수동 카페거리',6.8)"><div class="ic">🕐</div><div class="info"><b>성수동 카페거리</b><small>서울 성동구 성수이로</small></div><div class="km">6.8km</div></div>
-
-            <div class="sr-section">추천 장소</div>
-            <div class="sr" onclick="pickPlace('판교 테크원타워','판교 테크원타워',18.4)"><div class="ic">⭐</div><div class="info"><b>판교 테크원타워</b><small>경기 성남시 분당구</small></div><div class="km">18.4km</div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============== MATCHING (radar) ============== -->
-    <section class="screen matching-screen" id="screen-matching">
-      <div class="appbar">
-        <button class="back" onclick="cancelMatching()">←</button>
-        <h1>매칭 중</h1>
-        <button class="icon-btn">⋯</button>
-      </div>
-
-      <div class="mw-radar">
-        <div class="radar">
-          <div class="rings"></div>
-          <div class="rings r2"></div>
-          <div class="rings r3"></div>
-          <div class="sweep"></div>
-          <div class="blip b1"></div>
-          <div class="blip b2"></div>
-          <div class="blip b3"></div>
-          <div class="blip b4"></div>
-          <div class="core"><div class="me">나</div></div>
-        </div>
-      </div>
-
-      <div class="mw-meta">
-        <div class="label">SCANNING · 50m RADIUS</div>
-        <h2 id="matchingTitle">주변에서 같은 방향<br/>동행을 찾고 있어요</h2>
-        <p id="matchingDesc">강남역 11번 출구 반경 50m 안에서<br/>용산역 방향 이용자를 탐색 중입니다.</p>
-        <div class="stat">
-          <span>탐색 시간 <b id="elapsed">00:03</b></span>
-          <span>발견된 후보 <b id="found">3</b>명</span>
-        </div>
-      </div>
-
-      <div class="mw-actions">
-        <button class="btn ghost block" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);color:#fff" onclick="cancelMatching()">취소하고 단독 호출</button>
-      </div>
-    </section>
-
-    <!-- ============== MATCHES (candidate list) ============== -->
-    <section class="screen matches-screen" id="screen-matches">
-      <div class="appbar">
-        <button class="back" onclick="goto('home')">←</button>
-        <h1>매칭 후보</h1>
-        <button class="icon-btn">⟳</button>
-      </div>
-      <div class="scroll-area">
-        <div class="match-summary">
-          <div class="lf"><span class="dot-live"></span>실시간 갱신 중 · 5초마다</div>
-          <b id="matchCount">3건 발견</b>
-        </div>
-
-        <div class="match-card best" onclick="pickMatch('김선호',4.9,'K',48,22,9200,6200)">
-          <div class="mc-head">
-            <div class="av">K</div>
-            <div class="name"><b>김선호</b><small>합류 48m · 인증 완료 · 동승 12회</small></div>
-            <div class="star">★ 4.9</div>
-          </div>
-          <div class="mc-detail">
-            <div class="d"><small>합류 거리</small><b>48m</b></div>
-            <div class="d"><small>도착 ETA</small><b>22분</b></div>
-            <div class="d"><small>경로 우회</small><b>+2분</b></div>
-          </div>
-          <div class="mc-savings">
-            <small>나의 분담금 / 절감액</small>
-            <b>₩ 9,200 · -₩ 6,200</b>
-          </div>
-        </div>
-
-        <div class="match-card" onclick="pickMatch('정유진',4.8,'J',32,24,8400,7000)">
-          <div class="mc-head">
-            <div class="av" style="background:#fff">J</div>
-            <div class="name"><b>정유진</b><small>합류 32m · 인증 완료 · 동승 28회</small></div>
-            <div class="star">★ 4.8</div>
-          </div>
-          <div class="mc-detail">
-            <div class="d"><small>합류 거리</small><b>32m</b></div>
-            <div class="d"><small>도착 ETA</small><b>24분</b></div>
-            <div class="d"><small>경로 우회</small><b>+4분</b></div>
-          </div>
-          <div class="mc-savings">
-            <small>나의 분담금 / 절감액</small>
-            <b>₩ 8,400 · -₩ 7,000</b>
-          </div>
-        </div>
-
-        <div class="match-card" onclick="pickMatch('이도현',4.7,'L',45,26,7600,7800)">
-          <div class="mc-head">
-            <div class="av" style="background:#DFF7F0">L</div>
-            <div class="name"><b>이도현</b><small>합류 45m · 인증 완료 · 동승 6회</small></div>
-            <div class="star">★ 4.7</div>
-          </div>
-          <div class="mc-detail">
-            <div class="d"><small>합류 거리</small><b>45m</b></div>
-            <div class="d"><small>도착 ETA</small><b>26분</b></div>
-            <div class="d"><small>경로 우회</small><b>+6분</b></div>
-          </div>
-          <div class="mc-savings">
-            <small>나의 분담금 / 절감액</small>
-            <b>₩ 7,600 · -₩ 7,800</b>
-          </div>
-        </div>
-
-        <div style="text-align:center;padding:20px 20px 4px;color:var(--mute);font-size:12px">계속 탐색 중 · 새로운 후보가 추가됩니다</div>
-      </div>
-    </section>
-
-    <!-- ============== CONFIRM (route + fare) ============== -->
-    <section class="screen confirm-screen" id="screen-confirm">
-      <div class="appbar">
-        <button class="back" onclick="goto('matches')">←</button>
-        <h1>매칭 확정</h1>
-        <button class="icon-btn">ⓘ</button>
-      </div>
-
-      <div class="map-block">
-        <div class="grid-bg"></div>
-        <div class="road r1"></div>
-        <div class="road r2"></div>
-        <div class="road r3"></div>
-        <div class="route-line"></div>
-        <div class="pin me" style="left:18%;top:62%"><div class="pip"><span>나</span></div><div class="nm">강남역</div></div>
-        <div class="pin mate" style="left:34%;top:55%"><div class="pip"><span id="mateAvatar">K</span></div><div class="nm" id="mateName">김선호</div></div>
-        <div class="pin via" style="left:56%;top:38%"><div class="pip"><span>1</span></div><div class="nm">경유</div></div>
-        <div class="pin dest" style="left:80%;top:24%"><div class="pip"><span>도</span></div><div class="nm">용산역</div></div>
-      </div>
-
-      <div class="cf-sheet">
-        <div class="kbd-handle"></div>
-        <h2>매칭이 확정되었어요</h2>
-        <p class="lead"><b id="confirmMate">김선호</b>님과 함께 갑니다 · 예상 18분 · 12.4km</p>
-
-        <div class="route-list">
-          <div class="r-step">
-            <div class="vl"></div>
-            <div class="dt"><div class="p"></div></div>
-            <div class="info"><b>강남역 11번 출구</b><small>09:42 합류 · 출발지</small>
-              <span class="chip mint" style="margin-top:6px">나 · 출발</span></div>
-            <div class="km">0.0km</div>
-          </div>
-          <div class="r-step">
-            <div class="vl"></div>
-            <div class="dt"><div class="p via"></div></div>
-            <div class="info"><b id="viaName">한강대로 · 김선호님 하차</b><small>09:55 도착 · 경유 1</small>
-              <span class="chip" style="margin-top:6px" id="mateChip">K · 하차</span></div>
-            <div class="km">8.6km</div>
-          </div>
-          <div class="r-step">
-            <div class="dt"><div class="p end"></div></div>
-            <div class="info"><b>용산역 1번 출구</b><small>10:00 도착 · 최종 목적지</small>
-              <span class="chip yellow" style="margin-top:6px">나 · 하차</span></div>
-            <div class="km">12.4km</div>
-          </div>
-        </div>
-
-        <div class="fare-box">
-          <h3>예상 요금 산정<span class="chip" style="font-size:10px">실시간 산정</span></h3>
-          <div class="fare-row"><span>기본 요금</span><span>₩ 4,800</span></div>
-          <div class="fare-row"><span>거리 요금 · 12.4km</span><span>₩ 12,400</span></div>
-          <div class="fare-row"><span>시간 요금 · 18분</span><span>₩ 1,200</span></div>
-          <div class="fare-row" style="color:var(--mute)"><span>예상 할증</span><span>₩ 0</span></div>
-          <div class="fare-row total"><span>예상 총 요금</span><b>₩ 18,400</b></div>
-        </div>
-
-        <div class="split-box">
-          <div class="lbl">YOUR SPLIT · 2인 N분의 1</div>
-          <div class="you">
-            <div><small>나의 분담금</small></div>
-            <b><small>혼자 탔다면 ₩ 18,400</small>₩ 9,200</b>
-          </div>
-          <div class="per">
-            <div>나<br/><b>₩ 9,200</b></div>
-            <div id="mateSplit">김선호<br/><b>₩ 9,200</b></div>
-          </div>
-        </div>
-
-        <div class="consent">
-          <input type="checkbox" id="consent1" checked>
-          <label for="consent1">경로·요금·분담 규칙에 동의하며, 운행 중 경로 변경 시 재산정될 수 있음을 확인했습니다.</label>
-        </div>
-
-        <div class="bottom-bar">
-          <button class="btn ghost" onclick="goto('matches')">다른 후보 보기</button>
-          <button class="btn dark" onclick="goto('payment')">결제하기 →</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============== PAYMENT ============== -->
-    <section class="screen" id="screen-payment">
-      <div class="appbar solid">
-        <button class="back" onclick="goto('confirm')">←</button>
-        <h1>결제</h1>
-        <button class="icon-btn">ⓘ</button>
-      </div>
-      <div class="scroll-area">
-        <div class="pay-sum">
-          <div class="lbl">FINAL SPLIT · 결제 금액</div>
-          <div class="amount">₩ 9,200</div>
-          <p class="desc">2인 동승 · 강남역 → 용산역 · 예상 18분</p>
-        </div>
-
-        <div class="pm-list">
-          <h3>결제 수단 선택</h3>
-
-          <label class="pm-row sel">
-            <div class="logo kakao">PAY</div>
-            <div class="info"><b>카카오페이</b><small>기본 결제 · 잔액 ₩ 124,500</small></div>
-            <div class="rd"></div>
-          </label>
-          <label class="pm-row">
-            <div class="logo toss">TOSS</div>
-            <div class="info"><b>토스페이</b><small>간편결제</small></div>
-            <div class="rd"></div>
-          </label>
-          <label class="pm-row">
-            <div class="logo">VISA</div>
-            <div class="info"><b>신한카드 (5673)</b><small>국민 / 신한 / 우리 · 무이자 가능</small></div>
-            <div class="rd"></div>
-          </label>
-          <label class="pm-row">
-            <div class="logo" style="background:var(--bg);color:var(--ink);border:1px solid var(--line)">+</div>
-            <div class="info"><b>결제 수단 추가</b><small>카드 · 페이 · 은행</small></div>
-            <div class="rd"></div>
-          </label>
-
-          <h3 style="margin-top:18px">결제 동의 상태</h3>
-          <div class="card" style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <b style="font-size:13px">나 · 김대리</b>
-              <p style="font-size:11px;color:var(--mute);margin-top:2px">카카오페이 · 결제 대기</p>
-            </div>
-            <span class="chip yellow">결제 진행 중</span>
-          </div>
-          <div class="card" style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
-            <div>
-              <b style="font-size:13px" id="mateInPay">김선호</b>
-              <p style="font-size:11px;color:var(--mute);margin-top:2px">토스페이 · 결제 완료</p>
-            </div>
-            <span class="chip mint">✓ 완료</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="bottom-bar">
-        <button class="btn primary block lg" onclick="doPayment()">₩ 9,200 결제하기</button>
-      </div>
-    </section>
-
-    <!-- ============== RIDE (운행) ============== -->
-    <section class="screen ride-screen" id="screen-ride">
-      <div class="appbar" style="position:absolute;left:0;right:0;z-index:5">
-        <button class="back" onclick="goto('home')" style="background:rgba(0,0,0,.4);border-color:rgba(255,255,255,.2);color:#fff">←</button>
-        <h1 style="color:#fff">운행 중</h1>
-        <button class="icon-btn" style="background:rgba(0,0,0,.4);border-color:rgba(255,255,255,.2);color:#fff">⋯</button>
-      </div>
-
-      <div class="ride-map">
-        <div class="grid-bg"></div>
-        <div class="road r1"></div>
-        <div class="road r2"></div>
-        <div class="road r3"></div>
-        <div class="route-trail"></div>
-        <div class="glow"></div>
-        <div class="car">🚖</div>
-        <div class="pin-dest"><div class="pip"><span>도</span></div><div class="nm">용산역</div></div>
-      </div>
-
-      <div class="ride-sheet">
-        <div class="stat-pill"><span class="dot-live"></span>실시간 운행 중 · ETA 09:58</div>
-
-        <div class="ride-status">
-          <h2 id="rideStatusTitle">택시가 곧 도착해요</h2>
-          <div class="eta" id="rideStatusDesc">서울 35사 1284 · 약 1분 후 합류지점 도착</div>
-        </div>
-
-        <div class="timeline">
-          <div class="ts done"><div class="dt"></div>매칭</div>
-          <div class="ts done"><div class="dt"></div>배차</div>
-          <div class="ts on"><div class="dt"></div>도착</div>
-          <div class="ts"><div class="dt"></div>탑승</div>
-          <div class="ts"><div class="dt"></div>하차</div>
-        </div>
-
-        <div class="driver-card">
-          <div class="av">박</div>
-          <div class="info">
-            <b>박기사 · ★ 4.92</b>
-            <small>서울 개인택시 · 운행 4,820회</small>
-            <div class="car">서울 35사 1284 · 쏘나타 흰색</div>
-          </div>
-          <div class="actions">
-            <button onclick="toast('기사님께 전화 연결 중...')">📞</button>
-            <button onclick="openModal('chatThread')">💬</button>
-          </div>
-        </div>
-
-        <div class="mates-row">
-          <div class="mate-pill paid">
-            <div class="av">나</div>
-            <div class="info"><b>김대리</b><small>결제 완료 ₩9,200</small></div>
-          </div>
-          <div class="mate-pill paid">
-            <div class="av" style="background:#fff">K</div>
-            <div class="info"><b>김선호</b><small>결제 완료 ₩9,200</small></div>
-          </div>
-        </div>
-
-        <div class="safety-strip">
-          <div class="lt">
-            <div class="ic">🛡️</div>
-            <div>
-              <b>안심 동승 모드 ON</b>
-              <small>가족 2명에게 위치 공유 중</small>
-            </div>
-          </div>
-          <button class="btn sm">관리</button>
-        </div>
-
-        <button class="emergency-btn" onclick="openModal('emergency')">
-          🚨 비상 신고 · 길게 누름
-        </button>
-      </div>
-    </section>
-
-    <!-- ============== COMPLETE / REVIEW ============== -->
-    <section class="screen complete-screen" id="screen-complete">
-      <div class="appbar">
-        <button class="back" onclick="goto('home')">×</button>
-        <h1>운행 완료</h1>
-        <button class="icon-btn" onclick="toast('영수증을 PDF로 저장했어요')">↓</button>
-      </div>
-      <div class="scroll-area">
-        <div class="complete-card">
-          <div class="stamp">✓ 안전하게 도착했어요</div>
-          <h2>오늘 출근길<br/>이만큼 절약했어요</h2>
-          <div class="saved">₩ 9,200<small style="display:block;margin-top:6px">혼자 탔다면 ₩ 18,400</small></div>
-        </div>
-
-        <div class="receipt">
-          <h3>이용 영수증</h3>
-          <div class="receipt-row"><span>이용 시각</span><b>06.15 09:42 ~ 10:00</b></div>
-          <div class="receipt-row"><span>경로</span><b>강남역 → 용산역</b></div>
-          <div class="receipt-row"><span>거리 / 시간</span><b>12.4km · 18분</b></div>
-          <div class="receipt-row"><span>총 요금</span><b>₩ 18,400</b></div>
-          <div class="receipt-row"><span>나의 분담금</span><b>₩ 9,200</b></div>
-          <div class="receipt-row"><span>결제 수단</span><b>카카오페이</b></div>
-          <div class="receipt-row"><span>탑승자</span><b>김대리, 김선호</b></div>
-        </div>
-
-        <div class="review-card">
-          <h3>김선호님은 어떠셨나요?</h3>
-          <div class="sub">동승자에 대한 평가가 다음 매칭에 반영됩니다</div>
-          <div class="stars" id="stars">
-            <button data-i="1">★</button>
-            <button data-i="2">★</button>
-            <button data-i="3">★</button>
-            <button data-i="4">★</button>
-            <button data-i="5">★</button>
-          </div>
-          <div class="tags" id="reviewTags">
-            <button class="tag-btn">시간 약속</button>
-            <button class="tag-btn">매너 굿</button>
-            <button class="tag-btn">조용해요</button>
-            <button class="tag-btn">친절해요</button>
-            <button class="tag-btn">청결</button>
-          </div>
-          <textarea placeholder="간단한 후기를 남겨주세요 (선택)"></textarea>
-        </div>
-
-        <div style="padding:0 20px 24px;display:flex;gap:10px">
-          <button class="btn ghost block" onclick="goto('home')">건너뛰기</button>
-          <button class="btn dark block" onclick="submitReview()">리뷰 등록</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============== ACTIVITY ============== -->
-    <section class="screen list-screen" id="screen-activity" data-tab="activity">
-      <div class="appbar"><h1 class="tab-title display" style="padding:0">이용내역</h1><div class="spacer"></div><button class="icon-btn">⌕</button></div>
-      <div class="scroll-area">
-        <div style="padding:0 20px 12px;display:flex;gap:8px">
-          <span class="chip dark">전체</span>
-          <span class="chip">동승</span>
-          <span class="chip">단독</span>
-          <span class="chip">취소</span>
-        </div>
-
-        <div class="act-card">
-          <div class="top"><span class="date">2026.06.15 · 09:42</span><span class="st ok">완료</span></div>
-          <div class="route">
-            <div class="nodes"><b>강남역 → 용산역</b><small>2인 동승 · 김선호님과 함께</small></div>
-            <div class="amt"><b>₩ 9,200</b><small>-₩ 6,200</small></div>
-          </div>
-        </div>
-
-        <div class="act-card">
-          <div class="top"><span class="date">2026.06.14 · 18:30</span><span class="st ok">완료</span></div>
-          <div class="route">
-            <div class="nodes"><b>광화문 → 망원동</b><small>3인 동승 · 정유진, 이도현님과</small></div>
-            <div class="amt"><b>₩ 5,200</b><small>-₩ 9,800</small></div>
-          </div>
-        </div>
-
-        <div class="act-card">
-          <div class="top"><span class="date">2026.06.13 · 22:15</span><span class="st ok">완료</span></div>
-          <div class="route">
-            <div class="nodes"><b>홍대입구 → 신논현</b><small>2인 동승 · 박서연님과 함께</small></div>
-            <div class="amt"><b>₩ 8,400</b><small>-₩ 5,600</small></div>
-          </div>
-        </div>
-
-        <div class="act-card">
-          <div class="top"><span class="date">2026.06.11 · 08:20</span><span class="st no">취소</span></div>
-          <div class="route">
-            <div class="nodes"><b>역삼역 → 광화문</b><small>매칭 시간 초과로 취소</small></div>
-            <div class="amt"><b>₩ 0</b></div>
-          </div>
-        </div>
-
-        <div class="act-card">
-          <div class="top"><span class="date">2026.06.09 · 19:08</span><span class="st ok">완료</span></div>
-          <div class="route">
-            <div class="nodes"><b>여의도 → 신촌</b><small>2인 동승 · 최영진님과 함께</small></div>
-            <div class="amt"><b>₩ 7,200</b><small>-₩ 4,800</small></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tabbar">
-        <button onclick="switchTab('home')"><span class="ic">🏠</span>홈</button>
-        <button class="on" onclick="switchTab('activity')"><span class="ic">📋</span>이용내역</button>
-        <button class="center" onclick="startMatching()"><span class="ic">🚖</span></button>
-        <button onclick="switchTab('chat')"><span class="ic">💬</span>채팅</button>
-        <button onclick="switchTab('profile')"><span class="ic">👤</span>나</button>
-      </div>
-    </section>
-
-    <!-- ============== CHAT (list) ============== -->
-    <section class="screen chat-screen" id="screen-chat" data-tab="chat">
-      <div class="appbar"><h1 class="tab-title display" style="padding:0">채팅</h1><div class="spacer"></div><button class="icon-btn">⚙</button></div>
-      <div class="scroll-area">
-        <div class="chat-list">
-          <div class="chat-row" onclick="openModal('chatThread')">
-            <div class="av">K<div class="badge">2</div></div>
-            <div class="body">
-              <div class="top"><b>김선호 · 강남→용산</b><span class="tm">방금</span></div>
-              <div class="last">11번 출구 앞이에요. 검은색 패딩 입었어요!</div>
-            </div>
-          </div>
-          <div class="chat-row">
-            <div class="av" style="background:#fff">J</div>
-            <div class="body">
-              <div class="top"><b>정유진 · 광화문→망원</b><span class="tm">어제</span></div>
-              <div class="last">감사합니다! 다음에 또 함께해요 😊</div>
-            </div>
-          </div>
-          <div class="chat-row">
-            <div class="av" style="background:#DFF7F0">L</div>
-            <div class="body">
-              <div class="top"><b>이도현 · 광화문→망원</b><span class="tm">06.14</span></div>
-              <div class="last">[운행 종료] 채팅이 종료되었습니다.</div>
-            </div>
-          </div>
-          <div class="chat-row">
-            <div class="av" style="background:#FFE2D8">P</div>
-            <div class="body">
-              <div class="top"><b>박서연 · 홍대→신논현</b><span class="tm">06.13</span></div>
-              <div class="last">네 알겠습니다. 1분 안에 도착해요</div>
-            </div>
-          </div>
-          <div class="chat-row">
-            <div class="av" style="background:#E0EAFF">최</div>
-            <div class="body">
-              <div class="top"><b>최영진 · 여의도→신촌</b><span class="tm">06.09</span></div>
-              <div class="last">[운행 종료] 채팅이 종료되었습니다.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tabbar">
-        <button onclick="switchTab('home')"><span class="ic">🏠</span>홈</button>
-        <button onclick="switchTab('activity')"><span class="ic">📋</span>이용내역</button>
-        <button class="center" onclick="startMatching()"><span class="ic">🚖</span></button>
-        <button class="on" onclick="switchTab('chat')"><span class="ic">💬</span>채팅</button>
-        <button onclick="switchTab('profile')"><span class="ic">👤</span>나</button>
-      </div>
-    </section>
-
-    <!-- ============== NOTIFICATIONS ============== -->
-    <section class="screen list-screen" id="screen-notify">
-      <div class="appbar"><button class="back" onclick="back()">←</button><h1>알림</h1><button class="icon-btn" onclick="toast('모두 읽음 처리')">✓</button></div>
-      <div class="scroll-area">
-        <div class="notify-row unread">
-          <div class="ic">💬</div>
-          <div class="body">
-            <b>김선호님이 메시지를 보냈어요</b>
-            <p>11번 출구 앞이에요. 검은색 패딩 입었어요!</p>
-            <span class="tm">방금</span>
-          </div>
-        </div>
-        <div class="notify-row unread">
-          <div class="ic">🚖</div>
-          <div class="body">
-            <b>택시 배차 완료</b>
-            <p>서울 35사 1284 · 박기사님 · 1분 후 도착 예정</p>
-            <span class="tm">2분 전</span>
-          </div>
-        </div>
-        <div class="notify-row">
-          <div class="ic">✓</div>
-          <div class="body">
-            <b>매칭 확정</b>
-            <p>김선호님과의 동승이 확정되었어요. 분담 요금 ₩9,200</p>
-            <span class="tm">3분 전</span>
-          </div>
-        </div>
-        <div class="notify-row">
-          <div class="ic">💳</div>
-          <div class="body">
-            <b>결제 완료</b>
-            <p>카카오페이로 ₩9,200 결제되었습니다.</p>
-            <span class="tm">3분 전</span>
-          </div>
-        </div>
-        <div class="notify-row">
-          <div class="ic">🎉</div>
-          <div class="body">
-            <b>이번 달 절감액 ₩30,000 돌파!</b>
-            <p>축하해요. 함께타다로 이번 달 ₩38,400을 아꼈어요.</p>
-            <span class="tm">어제</span>
-          </div>
-        </div>
-        <div class="notify-row">
-          <div class="ic">⭐</div>
-          <div class="body">
-            <b>이도현님이 별 5점을 남겼어요</b>
-            <p>"시간 약속 정확하시고 매너 좋으세요!"</p>
-            <span class="tm">06.14</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============== PROFILE ============== -->
-    <section class="screen profile-screen" id="screen-profile" data-tab="profile">
-      <div class="appbar"><h1 class="tab-title display" style="padding:0">나</h1><div class="spacer"></div><button class="icon-btn">⚙</button></div>
-      <div class="scroll-area">
-        <div class="profile-hero">
-          <div class="meta">
-            <div class="av">대</div>
-            <div>
-              <b>김대리</b>
-              <small>kim.daeri@kakao.com · 인증 완료 ✓</small>
-            </div>
-          </div>
-          <div class="stats">
-            <div class="s"><small>평점</small><b>★ 4.91</b></div>
-            <div class="s"><small>동승</small><b>34회</b></div>
-            <div class="s"><small>누적 절감</small><b>₩342K</b></div>
-          </div>
-        </div>
-
-        <div class="list-section">
-          <h3>안전 · 안심</h3>
-          <div class="menu-row"><div class="ic">📞</div><div class="label">비상 연락처</div><div class="val">2명 등록</div><div class="ch">›</div></div>
-          <div class="menu-row"><div class="ic">📍</div><div class="label">실시간 위치 공유</div><div class="val">자동 ON</div><div class="ch">›</div></div>
-          <div class="menu-row"><div class="ic">🛡️</div><div class="label">안심 매칭 기준</div><div class="val">인증 완료자만</div><div class="ch">›</div></div>
-        </div>
-
-        <div class="list-section">
-          <h3>결제 · 알림</h3>
-          <div class="menu-row"><div class="ic">💳</div><div class="label">결제 수단 관리</div><div class="val">카카오페이 외 2</div><div class="ch">›</div></div>
-          <div class="menu-row"><div class="ic">🧾</div><div class="label">영수증 · 정산</div><div class="val"></div><div class="ch">›</div></div>
-          <div class="menu-row"><div class="ic">🔔</div><div class="label">알림 설정</div><div class="val">방해금지 22-07</div><div class="ch">›</div></div>
-        </div>
-
-        <div class="list-section">
-          <h3>매칭 환경설정</h3>
-          <div class="menu-row"><div class="ic">📏</div><div class="label">매칭 반경</div><div class="val">50m (기본)</div><div class="ch">›</div></div>
-          <div class="menu-row"><div class="ic">⏱️</div><div class="label">최대 우회 허용</div><div class="val">+8분</div><div class="ch">›</div></div>
-          <div class="menu-row"><div class="ic">⚖️</div><div class="label">요금 분할 방식</div><div class="val">n분의 1</div><div class="ch">›</div></div>
-        </div>
-
-        <div class="list-section">
-          <h3>기타</h3>
-          <div class="menu-row"><div class="ic">❓</div><div class="label">고객센터</div><div class="val"></div><div class="ch">›</div></div>
-          <div class="menu-row"><div class="ic">📜</div><div class="label">이용약관 · 정책</div><div class="val"></div><div class="ch">›</div></div>
-          <div class="menu-row danger"><div class="ic">🚪</div><div class="label">로그아웃</div><div class="val"></div><div class="ch">›</div></div>
-        </div>
-      </div>
-
-      <div class="tabbar">
-        <button onclick="switchTab('home')"><span class="ic">🏠</span>홈</button>
-        <button onclick="switchTab('activity')"><span class="ic">📋</span>이용내역</button>
-        <button class="center" onclick="startMatching()"><span class="ic">🚖</span></button>
-        <button onclick="switchTab('chat')"><span class="ic">💬</span>채팅</button>
-        <button class="on" onclick="switchTab('profile')"><span class="ic">👤</span>나</button>
-      </div>
-    </section>
-
-    <!-- ============== MODAL : EMERGENCY ============== -->
-    <section class="screen modal" id="modal-emergency">
-      <div class="emerg">
-        <div class="big" style="font-size:60px">🚨</div>
-        <h2>비상 신고가 곧 전송됩니다</h2>
-        <div class="countdown" id="emergCount">3</div>
-        <p>비상 연락처 2명과 함께타다 고객센터에<br/>현재 위치와 함께 알림이 전송됩니다.</p>
-        <div style="margin-top:30px;display:flex;gap:10px;width:100%">
-          <button class="btn block" style="background:#fff;color:var(--signal);border:none" onclick="closeModal('emergency')">취소</button>
-          <button class="btn block" style="background:rgba(0,0,0,.4);color:#fff;border:none" onclick="sendEmergency()">바로 전송</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============== MODAL : INCOMING REQUEST ============== -->
-    <section class="screen modal" id="modal-request">
-      <div style="margin-top:auto"></div>
-      <div class="modal-sheet">
-        <div class="kbd-handle"></div>
-        <span class="chip yellow">새 동승 요청 도착</span>
-        <h3>박서연님이 함께 가자고 해요</h3>
-        <p class="sub">출발지 40m · 같은 방향 · ★ 4.95</p>
-
-        <div class="req-card">
-          <div class="head">
-            <div class="av" style="background:#FFE2D8">박</div>
-            <div><b>박서연</b><small>합류 40m · 동승 21회 · 인증 완료</small></div>
-          </div>
-          <div class="ddl">
-            <span>요청 만료까지</span>
-            <span id="reqCount">00:24</span>
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:var(--mute)">
-          <div class="card" style="padding:12px"><small>예상 도착</small><b style="display:block;color:var(--ink);font-family:'IBM Plex Mono',monospace;margin-top:2px">22분</b></div>
-          <div class="card" style="padding:12px"><small>분담금</small><b style="display:block;color:var(--ink);font-family:'IBM Plex Mono',monospace;margin-top:2px">₩ 8,800</b></div>
-        </div>
-
-        <div style="display:flex;gap:10px;margin-top:18px">
-          <button class="btn ghost block" onclick="closeModal('request');toast('요청을 거절했어요')">거절</button>
-          <button class="btn primary block" onclick="closeModal('request');toast('수락! 매칭 화면으로 이동합니다',()=>goto('confirm'))">수락하기</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============== MODAL : CHAT THREAD ============== -->
-    <section class="screen modal" id="modal-chatThread">
-      <div style="margin-top:auto"></div>
-      <div class="modal-sheet" style="height:80%;padding:0;overflow:hidden">
-        <div class="appbar solid">
-          <button class="back" onclick="closeModal('chatThread')">←</button>
-          <h1>김선호 · 강남→용산</h1>
-          <button class="icon-btn">⋯</button>
-        </div>
-        <div class="chat-thread">
-          <div class="pinned">📍 11번 출구 합류 · 예상 09:42</div>
-          <div class="msgs" id="chatMsgs">
-            <div class="msg"><div class="b">안녕하세요! 매칭됐네요 ☺️</div></div>
-            <div class="msg me"><div class="b">안녕하세요~ 잘 부탁드려요!</div></div>
-            <div class="msg"><div class="b">지금 11번 출구로 가고 있어요. 약 2분 뒤 도착할 것 같아요.</div></div>
-            <div class="msg me"><div class="b">넵! 저도 거의 다 왔어요</div></div>
-            <div class="msg"><div class="b">11번 출구 앞이에요. 검은색 패딩 입었어요!</div></div>
-          </div>
-          <div class="input-bar">
-            <input id="chatInput" placeholder="메시지 입력" />
-            <button onclick="sendChat()">↑</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
+<!-- ============== TOP MARQUEE ============== -->
+<div class="marquee-bar" aria-hidden="true">
+  <div class="track">
+    <span>SEOUL · 목적지 기반 실시간 택시 매칭</span>
+    <span>실시간 매칭 반경 50M</span>
+    <span>2026 PRE-LAUNCH · 첫 3회 분담금 FREE</span>
+    <span>같은 방향이면, 같이 타요</span>
+    <span>SEOUL · 목적지 기반 실시간 택시 매칭</span>
+    <span>실시간 매칭 반경 50M</span>
+    <span>2026 PRE-LAUNCH · 첫 3회 분담금 FREE</span>
+    <span>같은 방향이면, 같이 타요</span>
   </div>
 </div>
 
+<!-- ============== NAV ============== -->
+<nav class="top">
+  <div class="inner">
+    <a href="#" class="brand">
+      <span class="logo">함</span>
+      <span>함께타다</span>
+    </a>
+    <div class="links">
+      <a href="#why">왜 함께타다</a>
+      <a href="#how">사용법</a>
+      <a href="#offer">사전등록 혜택</a>
+      <a href="#faq">자주 묻는 질문</a>
+      <a href="prototype.html">앱 미리보기 →</a>
+    </div>
+    <div class="spacer"></div>
+    <a href="#signup" class="cta">
+      <span class="pip"></span>
+      사전등록 신청
+    </a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="container">
+    <div class="grid">
+      <div class="hero-left reveal in">
+        <span class="eyebrow">
+          <span style="display:inline-block;width:6px;height:6px;background:var(--signal);border-radius:50%;animation:pulse 1.6s infinite"></span>
+          2026 SEOUL · PRE-LAUNCH
+        </span>
+
+        <h1 class="display">
+          같은 방향이면,<br/>
+          택시비는<br/>
+          <em>절반.</em>
+        </h1>
+
+        <p class="lede">
+          출발지 <b>50m 안</b>에 있는 같은 방향 사람과 자동 매칭해<br/>
+          요금을 분담합니다. 더 빠르고, 더 싸게, 그리고 더 조용하게.
+        </p>
+
+        <!-- LEAD MAGNET CARD + FORM -->
+        <div class="magnet" id="signup">
+          <div class="head">
+            <h3>지금 사전등록하고<br/>첫 3회 분담금 <span style="background:var(--brand);padding:0 6px;border-radius:4px">무료</span>로 타기</h3>
+            <span class="badge">선착순 1,000명</span>
+          </div>
+
+          <ul class="perks">
+            <li>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 11 8 15 16 6"/></svg>
+              <span><b>런칭 첫 3회 동승</b> 분담금 면제 (시범 운행 한정)</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 11 8 15 16 6"/></svg>
+              <span>정식 출시 <b>24시간 우선 입장</b> + 베타 테스터 배지</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 11 8 15 16 6"/></svg>
+              <span>주간 <b>'서울 출퇴근 절감 리포트'</b> 무료 발송</span>
+            </li>
+          </ul>
+
+          <form class="lead" id="leadForm" novalidate>
+            <label class="field">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              <input type="email" name="email" id="emailInput" placeholder="이메일 주소 (예: name@hamkke.co.kr)" required autocomplete="email" />
+              <select name="region" id="regionInput" aria-label="활동 지역">
+                <option value="">지역 선택</option>
+                <option value="서울 강남권">강남권</option>
+                <option value="서울 강북권">강북권</option>
+                <option value="서울 강서/마포">강서·마포</option>
+                <option value="서울 강동/송파">강동·송파</option>
+                <option value="경기">경기</option>
+                <option value="기타">기타 지역</option>
+              </select>
+            </label>
+
+            <button type="submit" class="submit" id="submitBtn">
+              <span>사전등록하고 혜택 받기</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+
+            <label class="consent">
+              <input type="checkbox" id="consentChk" checked required />
+              <span>(필수) 사전등록 알림 및 베타 안내 수신에 동의합니다. 등록 정보는 출시 전까지만 보관되며, 마케팅 외 용도로 사용되지 않습니다.</span>
+            </label>
+
+            <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+          </form>
+
+          <div class="under-form">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:var(--mute);flex-shrink:0"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <div>
+              이메일은 출시 안내 외 목적으로 사용되지 않으며,<br/>
+              <span style="color:var(--ink)">언제든 수신 거부 / 삭제 요청</span>이 가능합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HERO VISUAL -->
+      <div class="hero-visual reveal in" aria-hidden="true">
+        <div class="stage">
+          <div class="grid-bg"></div>
+
+          <div class="live-chip">
+            <span class="dot"></span>LIVE MATCHING · 50M
+          </div>
+
+          <div class="road r1"></div>
+          <div class="road r2"></div>
+          <div class="road r3"></div>
+          <div class="route"></div>
+
+          <div class="radar" aria-hidden="true">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+          </div>
+
+          <div class="pin me"><div class="pip"><span>나</span></div><div class="nm">강남역</div></div>
+          <div class="pin mate"><div class="pip"><span>K</span></div><div class="nm">+48m · 김선호</div></div>
+          <div class="pin dest"><div class="pip"><span>도</span></div><div class="nm">광화문 D타워</div></div>
+
+          <div class="fare">
+            <div class="lbl">UI PREVIEW · 매칭 확정 화면</div>
+            <div class="you">
+              <b>1/n</b>
+              <div style="text-align:right">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#999;letter-spacing:.12em">YOUR SHARE</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brand);font-weight:600">AUTO SPLIT</div>
+              </div>
+            </div>
+            <div class="split">
+              <span>경로·할증 자동 반영</span>
+              <b>2인 동승 예시</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PRINCIPLES STRIP ============== -->
+<section class="stats-strip">
+  <div class="row">
+    <div class="stat">
+      <div class="l">RADIUS</div>
+      <div class="v">50<small>m</small></div>
+      <div class="s">출발지 반경 안에서만 매칭. 멀리 걸을 필요 없음.</div>
+    </div>
+    <div class="stat">
+      <div class="l">SPLIT</div>
+      <div class="v">1/n<small></small></div>
+      <div class="s">경유지·거리 가중치를 반영해 분담액 자동 계산.</div>
+    </div>
+    <div class="stat">
+      <div class="l">SAFETY</div>
+      <div class="v">24/7<small></small></div>
+      <div class="s">실시간 위치 공유 · 원터치 비상 신고 기본 제공.</div>
+    </div>
+    <div class="stat">
+      <div class="l">STATUS</div>
+      <div class="v">PRE<small>·LAUNCH</small></div>
+      <div class="s">2026 사전등록 진행 중 · 첫 3회 분담금 면제.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== WHY ============== -->
+<section class="section" id="why">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">왜 함께타다</span>
+      <h2 class="display">택시는 비싸고,<br/><em>대중교통은 멀다.</em><br/>그 사이의 답.</h2>
+      <p>매일 같은 시간, 같은 방향으로 움직이는 사람들이 있습니다. 우리는 그 동선을 자동으로 찾아 묶고, 요금을 투명하게 분담합니다. 누구도 불편하지 않게.</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="num">01</div>
+        <div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8Z"/></svg>
+        </div>
+        <h3>출발지 50m,<br/>걸어가지 않아도 돼요</h3>
+        <p>현재 위치 반경 50m 안에서 동선이 같은 사람을 자동 탐색합니다. 약속 장소를 정할 필요 없이, 서 있는 그 자리에서 매칭됩니다.</p>
+        <div class="stat">
+          <span class="v">50m</span>
+          <span class="l">REAL-TIME RADIUS</span>
+        </div>
+      </div>
+
+      <div class="why-card dark reveal">
+        <div class="num">02</div>
+        <div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <h3>n분의 1,<br/>계산기 두드리지 마세요</h3>
+        <p>경유지 순서·각자 이동 거리·할증을 반영한 분담액을 자동 계산하고, 한 화면에 투명하게 보여줍니다. 누가 얼마 내는지 한눈에.</p>
+        <div class="stat">
+          <span class="v">1/n</span>
+          <span class="l">AUTO SPLIT</span>
+        </div>
+      </div>
+
+      <div class="why-card reveal">
+        <div class="num">03</div>
+        <div class="ic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3>비상 신고와<br/>실시간 위치 공유</h3>
+        <p>가족·친구에게 운행 중 위치를 자동 공유하고, 위급 시 원터치 신고를 지원합니다. 매칭 상대 평점·인증 배지로 더 안심하게.</p>
+        <div class="stat">
+          <span class="v">24/7</span>
+          <span class="l">SAFE-MODE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOW IT WORKS ============== -->
+<section class="section tight" id="how">
+  <div class="how reveal">
+    <div class="how-head">
+      <div>
+        <span class="kicker" style="color:var(--brand);border-top:2px solid var(--brand);padding:6px 0;display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em">사용법</span>
+        <h2 class="display" style="margin-top:14px">목적지만 입력하면,<br/><em>나머지는 우리가.</em></h2>
+      </div>
+      <p class="lede">출발지에 서서 목적지만 입력하면 매칭, 합류, 결제, 하차까지 한 번에 끝납니다.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="n">i</div>
+        <h4>출발·목적지 입력</h4>
+        <p>현재 위치는 자동, 목적지는 즐겨찾기·최근·검색으로 빠르게. 핀으로 미세 조정도 가능합니다.</p>
+        <span class="time">STEP 01</span>
+      </div>
+      <div class="step reveal">
+        <div class="n">ii</div>
+        <h4>50m 동행 자동 탐색</h4>
+        <p>같은 방향으로 향하는 후보를 실시간으로 찾아 카드로 보여줍니다. 도착 ETA·우회 정도·예상 분담액까지.</p>
+        <span class="time">STEP 02</span>
+      </div>
+      <div class="step reveal">
+        <div class="n">iii</div>
+        <h4>경로·요금 한눈에</h4>
+        <p>경유지 순서를 자동 제안하고, 각자 분담 요금을 n분의 1로 투명하게 표시. 한 명이라도 거절하면 즉시 재계산.</p>
+        <span class="time">STEP 03</span>
+      </div>
+      <div class="step reveal">
+        <div class="n">iv</div>
+        <h4>호출 · 합류 · 결제</h4>
+        <p>탑승까지 타임라인으로 안내하고, 각자 자신의 분담금을 앱 안에서 결제합니다. 영수증은 자동 정리.</p>
+        <span class="time">STEP 04</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FEATURE MAGNET (BIG OFFER) ============== -->
+<section class="feature-magnet" id="offer">
+  <div class="card reveal">
+    <div class="inner">
+      <div>
+        <span class="kicker">EARLY BIRD · 사전등록 한정</span>
+        <h2 class="display">사전등록이<br/>가장 큰 할인입니다.</h2>
+        <p class="lede">정식 출시 후에는 다시 제공되지 않는 특전입니다. 베타 기간 동안 함께 검증하고 다듬어 주실 분께만 드리는, 작지만 확실한 보상.</p>
+
+        <div class="perks">
+          <div class="p">
+            <span class="n">01</span>
+            <div class="t">
+              <b>첫 3회 동승 분담금 면제</b>
+              <small>사전등록자에 한해 첫 3회 동승의 본인 분담금을 함께타다가 부담합니다. 가입과 동시에 코드 자동 발급.</small>
+            </div>
+          </div>
+          <div class="p">
+            <span class="n">02</span>
+            <div class="t">
+              <b>정식 출시 24시간 우선 입장</b>
+              <small>일반 공개 24시간 전, 사전등록 메일로 보낸 링크로 먼저 입장할 수 있습니다.</small>
+            </div>
+          </div>
+          <div class="p">
+            <span class="n">03</span>
+            <div class="t">
+              <b>베타 라운지 + 피드백 인센티브</b>
+              <small>운영팀 직속 라운지 초대 · 채택된 의견에는 추가 분담금 면제 1회를 드립니다.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="visual">
+        <div class="receipt">
+          <div class="stamp">FREE<br/><small>×3 RIDES</small></div>
+          <h4>COUPON · 사전등록 한정</h4>
+          <div class="r"><span>동승 분담금 1회권</span><b>FREE</b></div>
+          <div class="r"><span>동승 분담금 2회권</span><b>FREE</b></div>
+          <div class="r"><span>동승 분담금 3회권</span><b>FREE</b></div>
+          <div class="total">
+            <span>본인 부담 (3회 전액 면제)</span>
+            <b>₩0</b>
+          </div>
+        </div>
+        <div style="margin-top:20px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.18em;color:var(--ink-2)">
+          코드 자동 발급 · 단독 호출 시 미사용
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== APP PREVIEW ============== -->
+<section class="app-preview-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="kicker">앱 미리보기</span>
+      <h2 class="display">호출에서 하차까지,<br/><em>한 화면 안에서.</em></h2>
+      <p>아래 미리보기는 베타 디자인을 단순화한 시뮬레이션입니다. 실제 앱은 더 부드럽고 더 빠릅니다.</p>
+    </div>
+
+    <div class="phones reveal">
+      <!-- Phone 1: Home -->
+      <div class="phone">
+        <div class="scr">
+          <div class="scr-home">
+            <div class="top">
+              <div>
+                <div class="mono" style="font-size:9px;color:var(--mute);letter-spacing:.16em">함께타다</div>
+                <h5>안녕하세요, 김대리님</h5>
+              </div>
+              <div class="b">🔔</div>
+            </div>
+            <div class="greet">오늘도 <em>합리적</em>인<br/>출근길 함께해요</div>
+            <div class="input">
+              <div class="ln"><div class="d"></div>강남역 11번 출구</div>
+              <div class="ln"><div class="d k"></div>어디로 가세요?</div>
+            </div>
+            <div class="cta">함께 탈 사람 찾기 →</div>
+            <div class="promo">
+              <div>
+                <div class="l">PROMO · 신규</div>
+                <div class="h">첫 동승<br/>분담금 70% 할인</div>
+              </div>
+              <div class="p">-70<span style="font-size:10px">%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone 2: Matching -->
+      <div class="phone">
+        <div class="scr">
+          <div class="scr-match">
+            <div class="top">
+              <div class="b" style="background:rgba(255,255,255,.1);color:#fff">←</div>
+              <h5>매칭 중</h5>
+              <div class="b" style="background:rgba(255,255,255,.1);color:#fff">⋯</div>
+            </div>
+            <div class="radar">
+              <div class="ring"></div>
+              <div class="ring r2"></div>
+              <div class="ring r3"></div>
+              <div class="swp"></div>
+              <div class="me">나</div>
+            </div>
+            <div class="lbl">SCANNING · 50M RADIUS</div>
+            <div class="ttl">주변에서 같은 방향<br/>동행을 찾고 있어요</div>
+            <div class="desc">강남역 11번 출구 반경 50m 안에서<br/>광화문 방향 이용자를 탐색 중</div>
+            <div class="stat">
+              <span>탐색 <b>00:18</b></span>
+              <span>후보 <b>3명</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone 3: Fare -->
+      <div class="phone">
+        <div class="scr">
+          <div class="scr-fare">
+            <h5>매칭 확정 ⓘ</h5>
+            <div class="map">
+              <div class="gg"></div>
+              <div class="road"></div>
+              <div class="p a"></div>
+              <div class="p b"></div>
+              <div class="p c"></div>
+            </div>
+            <div style="font-size:11px;color:var(--mute);margin-top:10px">동행과 함께 · 예시 경로</div>
+            <div class="fare-card">
+              <div class="l">분담 결과 화면</div>
+              <div class="num">
+                <b>1/n</b>
+                <div style="text-align:right">
+                  <div class="s" style="text-decoration:none;color:#aaa">AUTO</div>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--brand)">SPLIT</div>
+                </div>
+              </div>
+              <div class="perr">
+                <div>나<b>1/n</b></div>
+                <div>동행<b>1/n</b></div>
+              </div>
+            </div>
+            <div class="btn">결제하고 호출하기</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:60px">
+      <a href="prototype.html" style="display:inline-flex;align-items:center;gap:10px;background:var(--brand);color:var(--ink);font-family:'GmarketSansBold';font-size:15px;padding:16px 28px;border-radius:14px;border:1.5px solid var(--ink);box-shadow:6px 6px 0 var(--brand-hot);transition:transform .2s ease">
+        앱 프로토타입 전체 보기
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section class="section" id="faq" style="background:linear-gradient(180deg,transparent,var(--cream))">
+  <div class="container">
+    <div class="section-head reveal" style="text-align:center;margin-left:auto;margin-right:auto">
+      <span class="kicker">자주 묻는 질문</span>
+      <h2 class="display">궁금한 것은<br/><em>먼저 답변드릴게요.</em></h2>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item reveal" open>
+        <summary>
+          <div class="q"><span class="n">Q · 01</span>매칭이 안 되면 어떻게 되나요?</div>
+          <div class="toggle">+</div>
+        </summary>
+        <div class="a">
+          탐색 시작 후 약 60초 안에 후보가 없으면 (1) 반경을 100m로 한 번 더 확장하거나 (2) 단독 호출로 전환하는 두 가지 선택지가 안내됩니다. 두 경우 모두 사전등록 혜택 코드는 차감되지 않습니다.
+        </div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>
+          <div class="q"><span class="n">Q · 02</span>요금 분담은 정확히 어떻게 계산되나요?</div>
+          <div class="toggle">+</div>
+        </summary>
+        <div class="a">
+          기본은 n분의 1이며, 옵션으로 '가중치 분담'(더 먼 하차지 부담 가중)도 선택할 수 있습니다. 예상 요금은 거리·시간·할증을 기반으로 산출하고, 실제 미터기와 차이가 날 수 있는 부분은 결제 직전 한 번 더 확인합니다.
+        </div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>
+          <div class="q"><span class="n">Q · 03</span>같이 타는 사람이 누군지 어떻게 확인하나요?</div>
+          <div class="toggle">+</div>
+        </summary>
+        <div class="a">
+          모든 사용자는 휴대전화·이메일 인증을 거치고, 동승 후 평점·리뷰 시스템으로 자기조정됩니다. 매칭 전 닉네임·평점·동승 횟수·인증 배지를 확인할 수 있고, 마음에 들지 않으면 거절도 자유롭습니다.
+        </div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>
+          <div class="q"><span class="n">Q · 04</span>비상 상황에는 어떻게 도움받나요?</div>
+          <div class="toggle">+</div>
+        </summary>
+        <div class="a">
+          모든 운행에는 가족·친구에게 자동 위치 공유 옵션, 원터치 비상 신고, 비상 모드(화면 숨김·조용한 알림)가 기본 제공됩니다. 신고 시 현재 위치·차량 정보·경로가 함께 전달됩니다.
+        </div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>
+          <div class="q"><span class="n">Q · 05</span>언제 정식 출시되나요?</div>
+          <div class="toggle">+</div>
+        </summary>
+        <div class="a">
+          서울 강남·광화문·여의도 권역 시범 운행 이후, <b>2026년 4분기</b> 정식 출시를 목표로 하고 있습니다. 사전등록자는 출시 24시간 전 우선 입장 링크를 메일로 받으십니다.
+        </div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>
+          <div class="q"><span class="n">Q · 06</span>제 정보는 어떻게 보관되나요?</div>
+          <div class="toggle">+</div>
+        </summary>
+        <div class="a">
+          사전등록에서 받은 이메일과 지역 정보는 정식 출시 안내 및 베타 초대 외 용도로 사용되지 않으며, 출시 6개월 후 자동 폐기됩니다. 언제든 이메일로 요청 시 즉시 삭제됩니다.
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FINAL CTA ============== -->
+<section class="final-cta">
+  <div class="inner">
+    <div class="reveal">
+      <span class="kicker">LAST CALL · 사전등록</span>
+      <h2 class="display">먼저 타는 사람이,<br/>가장 싸게 탑니다.</h2>
+      <p>이메일 한 줄. 1초. 그 다음은 우리가 알아서 합니다. 첫 3회 분담금 면제와 함께 출시 첫날 가장 먼저 만나요.</p>
+
+      <div class="ascii">
+   ●─────●─────●─────────○
+   나     동행   경유      목적지
+      </div>
+    </div>
+
+    <div class="reveal">
+      <form class="lead" id="leadForm2" novalidate style="background:var(--paper);border:1.5px solid var(--ink);border-radius:24px;padding:24px;box-shadow:8px 8px 0 var(--ink)">
+        <div style="font-family:'GmarketSansBold';font-size:18px;margin-bottom:14px;letter-spacing:-.02em">사전등록하고 혜택 받기</div>
+
+        <label class="field">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <input type="email" name="email" id="emailInput2" placeholder="이메일 주소" required autocomplete="email" />
+        </label>
+
+        <label class="field" style="margin-top:8px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8Z"/></svg>
+          <select name="region" id="regionInput2" aria-label="활동 지역" style="flex:1;padding:14px 22px 14px 0;font-weight:600;font-size:15px;border-left:none">
+            <option value="">활동 지역 선택</option>
+            <option value="서울 강남권">서울 강남권</option>
+            <option value="서울 강북권">서울 강북권</option>
+            <option value="서울 강서/마포">서울 강서·마포</option>
+            <option value="서울 강동/송파">서울 강동·송파</option>
+            <option value="경기">경기</option>
+            <option value="기타">기타 지역</option>
+          </select>
+        </label>
+
+        <button type="submit" class="submit" style="margin-top:10px" id="submitBtn2">
+          <span>등록하고 혜택 받기</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+
+        <label class="consent">
+          <input type="checkbox" id="consentChk2" checked required />
+          <span>(필수) 사전등록 알림 수신에 동의합니다.</span>
+        </label>
+
+        <div class="form-status" id="formStatus2" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============== FOOTER ============== -->
+<footer>
+  <div class="inner">
+    <div>
+      <div class="brand">
+        <span class="logo">함</span>
+        <span>함께타다</span>
+      </div>
+      <p class="tag">목적지 기반 실시간 택시 매칭. 같은 방향 사람과 자동으로 분담하는, 더 합리적인 이동의 표준.</p>
+    </div>
+    <div>
+      <h6>서비스</h6>
+      <ul>
+        <li><a href="#why">왜 함께타다</a></li>
+        <li><a href="#how">사용법</a></li>
+        <li><a href="#offer">사전등록 혜택</a></li>
+        <li><a href="prototype.html">앱 미리보기</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>회사</h6>
+      <ul>
+        <li><a href="#">소개</a></li>
+        <li><a href="#">팀</a></li>
+        <li><a href="#">채용</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>연락</h6>
+      <ul>
+        <li><a href="mailto:hello@hamkketada.kr">hello@hamkketada.kr</a></li>
+        <li><a href="#">이용약관</a></li>
+        <li><a href="#">개인정보처리방침</a></li>
+        <li><a href="#">위치기반서비스 약관</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="meta">
+    <div>© 2026 HAMKKE-TADA · ALL RIGHTS RESERVED</div>
+    <div class="made">MADE IN SEOUL · v0.1 PRE-LAUNCH</div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">등록되었습니다.</span>
+</div>
+
 <script>
-/* ============================================
-   STATE & ROUTING
-   ============================================ */
-const state = {
-  origin:"강남역 11번 출구",
-  destination:null,
-  currentTab:"home",
-  history:["home"],
-  searchField:"to",
-  selectedMate:null,
-  emergencyTimer:null,
-  reqTimer:null,
-  matchingTimer:null,
-};
+/* ============== Google Apps Script endpoint ============== */
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwAke5j53pUf6ounRSRJJ5QtcBsGXVbFz6C-P-nvTazO7WXbkLcOvULBjvgRuK75oVD/exec';
 
-const screens = ["home","search","matching","matches","confirm","payment","ride","complete","activity","chat","notify","profile"];
-
-function el(id){return document.getElementById(id)}
-function goto(name,arg){
-  const target = el("screen-"+name);
-  if(!target) return;
-  document.querySelectorAll(".screen").forEach(s=>{
-    if(s===target){s.classList.add("active");s.classList.remove("prev")}
-    else {s.classList.remove("active");s.classList.remove("prev")}
-  });
-  state.currentTab = name;
-  if(state.history[state.history.length-1] !== name) state.history.push(name);
-  if(name === "search") state.searchField = arg || "to";
-  if(name === "matching") runMatchingAnim();
-}
-function back(){
-  state.history.pop();
-  const last = state.history[state.history.length-1] || "home";
-  goto(last);
-  state.history.pop();
-}
-function switchTab(name){ goto(name); state.history=[name] }
-
-function openModal(name){
-  const m = el("modal-"+name);
-  if(!m) return;
-  m.classList.add("active");
-  if(name==="emergency") startEmergCount();
-  if(name==="request") startReqCount();
-}
-function closeModal(name){
-  const m = el("modal-"+name);
-  if(!m) return;
-  m.classList.remove("active");
-  if(name==="emergency" && state.emergencyTimer){clearInterval(state.emergencyTimer);state.emergencyTimer=null}
-  if(name==="request" && state.reqTimer){clearInterval(state.reqTimer);state.reqTimer=null}
+/* ============== Toast ============== */
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toastMsg');
+function showToast(msg, kind='ok'){
+  toast.className = 'toast show ' + kind;
+  toastMsg.textContent = msg;
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=>{ toast.className='toast'; }, 4200);
 }
 
-/* ============================================
-   HOME → SEARCH → MATCHING flow
-   ============================================ */
-function swapPlaces(){
-  if(!state.destination) return toast("목적지를 먼저 선택해주세요");
-  const o = state.origin; state.origin = state.destination; state.destination = o;
-  el("originPh").textContent = state.origin;
-  el("destPh").textContent = state.destination;
-  el("destPh").style.color = "var(--ink)";
-}
-function setDest(label, dest){
-  state.destination = dest;
-  el("destPh").textContent = label;
-  el("destPh").style.color = "var(--ink)";
-  toast("목적지를 <b>"+dest+"</b>로 설정했어요");
-}
-function pickPlace(label, val, km){
-  if(state.searchField === "from"){
-    state.origin = val;
-    el("originPh").textContent = val;
-  } else {
-    state.destination = val;
-    el("destPh").textContent = label;
-    el("destPh").style.color = "var(--ink)";
-  }
-  goto("home");
-  state.history = ["home"];
-}
+/* ============== Form submission ============== */
+function bindForm(formId, emailId, regionId, consentId, statusId, btnId){
+  const form = document.getElementById(formId);
+  if(!form) return;
+  const emailEl = document.getElementById(emailId);
+  const regionEl = document.getElementById(regionId);
+  const consentEl = document.getElementById(consentId);
+  const statusEl = document.getElementById(statusId);
+  const btn = document.getElementById(btnId);
 
-function startMatching(){
-  if(!state.destination){
-    toast("목적지를 먼저 입력해주세요");
-    return goto("search","to");
-  }
-  el("matchingDesc").innerHTML = state.origin + " 반경 50m 안에서<br/>" + state.destination + " 방향 이용자를 탐색 중입니다.";
-  goto("matching");
-}
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    statusEl.className = 'form-status';
+    statusEl.textContent = '';
 
-function runMatchingAnim(){
-  let sec=3, found=3;
-  el("elapsed").textContent = "00:0"+sec;
-  el("found").textContent = found;
-  if(state.matchingTimer) clearInterval(state.matchingTimer);
-  state.matchingTimer = setInterval(()=>{
-    sec++;
-    if(sec>=10){
-      clearInterval(state.matchingTimer);
-      goto("matches");
+    const email = (emailEl.value || '').trim();
+    const region = (regionEl.value || '').trim();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if(!ok){
+      statusEl.className = 'form-status err';
+      statusEl.textContent = '올바른 이메일 주소를 입력해 주세요.';
+      emailEl.focus();
       return;
     }
-    if(sec===5){found=4; el("found").textContent=found; el("matchingTitle").innerHTML="새로운 동행을 찾았어요"}
-    if(sec===8){found=5; el("found").textContent=found}
-    el("elapsed").textContent = "00:" + String(sec).padStart(2,"0");
-  }, 380);
-}
-function cancelMatching(){
-  if(state.matchingTimer) clearInterval(state.matchingTimer);
-  toast("단독 호출로 전환했어요");
-  goto("home");
-}
+    if(!consentEl.checked){
+      statusEl.className = 'form-status err';
+      statusEl.textContent = '수신 동의가 필요합니다.';
+      return;
+    }
 
-/* ============================================
-   MATCH PICK → CONFIRM
-   ============================================ */
-function pickMatch(name, star, av, dist, eta, fare, save){
-  state.selectedMate = {name, star, av, dist, eta, fare, save};
-  el("confirmMate").textContent = name;
-  el("mateName").textContent = name;
-  el("mateAvatar").textContent = av;
-  el("viaName").textContent = "한강대로 · " + name + "님 하차";
-  el("mateChip").textContent = av + " · 하차";
-  el("mateSplit").innerHTML = name + "<br/><b>₩ " + fare.toLocaleString() + "</b>";
-  el("mateInPay").textContent = name;
-  goto("confirm");
-}
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span>등록 중…</span>';
 
-/* ============================================
-   PAYMENT
-   ============================================ */
-document.querySelectorAll(".pm-row").forEach(r=>{
-  r.addEventListener("click",()=>{
-    document.querySelectorAll(".pm-row").forEach(x=>x.classList.remove("sel"));
-    r.classList.add("sel");
-  });
-});
-
-function doPayment(){
-  toast("<b>결제 완료</b> · 택시를 호출하고 있어요", ()=>{
-    goto("ride");
-    runRideSimulation();
-  });
-}
-
-/* ============================================
-   RIDE simulation
-   ============================================ */
-function runRideSimulation(){
-  const steps = [
-    {title:"택시가 곧 도착해요", desc:"서울 35사 1284 · 약 1분 후 합류지점 도착", t:[1,1,2,0,0]},
-    {title:"탑승하실 시간이에요", desc:"서울 35사 1284 · 11번 출구 앞에서 탑승해주세요", t:[1,1,1,2,0]},
-    {title:"용산역으로 이동 중", desc:"예상 도착 10:00 · 12.4km · 김선호님 하차 후 이동", t:[1,1,1,1,2]},
-    {title:"잠시 후 하차해요", desc:"용산역 1번 출구 · 도착까지 1분", t:[1,1,1,1,2]},
-    {title:"안전하게 도착했어요", desc:"운행이 종료되었어요. 잠시 후 영수증을 안내합니다.", t:[1,1,1,1,1]},
-  ];
-  let i=0;
-  const tl = document.querySelectorAll("#screen-ride .timeline .ts");
-  function applyTimeline(arr){
-    tl.forEach((n,idx)=>{
-      n.classList.remove("on","done");
-      if(arr[idx]===1) n.classList.add("done");
-      if(arr[idx]===2) n.classList.add("on");
+    const payload = new URLSearchParams({
+      email,
+      region: region || 'unspecified',
+      source: 'landing',
+      ts: new Date().toISOString(),
+      ua: navigator.userAgent.slice(0, 200)
     });
-  }
-  function tick(){
-    if(i>=steps.length){ goto("complete"); return }
-    const s = steps[i];
-    el("rideStatusTitle").textContent = s.title;
-    el("rideStatusDesc").textContent = s.desc;
-    applyTimeline(s.t);
-    i++;
-    setTimeout(tick, i===steps.length ? 1800 : 2600);
-  }
-  tick();
+
+    try{
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload.toString()
+      });
+      statusEl.className = 'form-status ok';
+      statusEl.textContent = '✓ 사전등록 완료! 출시 안내 메일을 곧 보내드릴게요.';
+      showToast('사전등록이 완료되었어요. 메일함을 확인해 주세요.', 'ok');
+      emailEl.value = '';
+      regionEl.value = '';
+      const c = document.getElementById('waitlistCount');
+      if(c) c.textContent = (parseInt(c.textContent.replace(/,/g,''),10)+1).toLocaleString();
+    }catch(err){
+      statusEl.className = 'form-status err';
+      statusEl.textContent = '잠시 후 다시 시도해 주세요. 문제가 계속되면 hello@hamkketada.kr 로 보내주세요.';
+      showToast('네트워크 오류가 발생했습니다.', 'err');
+    }finally{
+      btn.disabled = false;
+      btn.innerHTML = original;
+    }
+  });
 }
 
-/* ============================================
-   REVIEW (stars + tags)
-   ============================================ */
-document.querySelectorAll("#stars button").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    const v = +btn.dataset.i;
-    document.querySelectorAll("#stars button").forEach(b=>{
-      b.classList.toggle("on", +b.dataset.i <= v);
-    });
+bindForm('leadForm', 'emailInput', 'regionInput', 'consentChk', 'formStatus', 'submitBtn');
+bindForm('leadForm2', 'emailInput2', 'regionInput2', 'consentChk2', 'formStatus2', 'submitBtn2');
+
+/* ============== Counter animation ============== */
+function animateCount(el){
+  const target = parseInt(el.dataset.count, 10);
+  const prefix = el.dataset.prefix || '';
+  const suffix = el.dataset.suffix || '';
+  const small = el.querySelector('small');
+  const smallHTML = small ? small.outerHTML : '';
+  const duration = 1600;
+  const start = performance.now();
+
+  function tick(now){
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    const val = Math.round(target * eased);
+    el.innerHTML = prefix + val.toLocaleString() + suffix + smallHTML;
+    if(t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ============== Reveal on scroll ============== */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      en.target.classList.add('in');
+      if(en.target.dataset.count){
+        animateCount(en.target);
+      }
+      io.unobserve(en.target);
+    }
+  });
+}, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+
+/* ============== Smooth scroll for hash links ============== */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', (e)=>{
+    const id = a.getAttribute('href').slice(1);
+    if(!id) return;
+    const target = document.getElementById(id);
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    }
   });
 });
-document.querySelectorAll("#reviewTags .tag-btn").forEach(t=>{
-  t.addEventListener("click",()=>t.classList.toggle("on"));
-});
-function submitReview(){
-  toast("<b>리뷰가 등록되었어요</b> · 다음에도 함께타다!");
-  setTimeout(()=>switchTab("home"), 1200);
-}
-
-/* ============================================
-   EMERGENCY
-   ============================================ */
-function startEmergCount(){
-  let c=3;
-  el("emergCount").textContent = c;
-  state.emergencyTimer = setInterval(()=>{
-    c--;
-    if(c<=0){
-      clearInterval(state.emergencyTimer);
-      state.emergencyTimer=null;
-      sendEmergency();
-      return;
-    }
-    el("emergCount").textContent = c;
-  },1000);
-}
-function sendEmergency(){
-  if(state.emergencyTimer){clearInterval(state.emergencyTimer);state.emergencyTimer=null}
-  closeModal("emergency");
-  toast("<b>비상 신고가 전송되었습니다</b> · 곧 연락드릴게요");
-}
-
-/* ============================================
-   INCOMING REQUEST modal
-   ============================================ */
-function startReqCount(){
-  let c=24;
-  el("reqCount").textContent = "00:"+String(c).padStart(2,"0");
-  state.reqTimer = setInterval(()=>{
-    c--;
-    if(c<=0){
-      clearInterval(state.reqTimer);state.reqTimer=null;
-      closeModal("request");
-      toast("요청이 만료되었어요");
-      return;
-    }
-    el("reqCount").textContent = "00:"+String(c).padStart(2,"0");
-  },1000);
-}
-
-/* ============================================
-   CHAT
-   ============================================ */
-function sendChat(){
-  const inp = el("chatInput");
-  if(!inp.value.trim()) return;
-  const msgs = el("chatMsgs");
-  const div = document.createElement("div");
-  div.className = "msg me";
-  div.innerHTML = '<div class="b">'+inp.value.replace(/</g,"&lt;")+'</div>';
-  msgs.appendChild(div);
-  inp.value = "";
-  msgs.scrollTop = msgs.scrollHeight;
-  setTimeout(()=>{
-    const reply = document.createElement("div");
-    reply.className = "msg";
-    reply.innerHTML = '<div class="b">네 곧 가요 ㅎㅎ</div>';
-    msgs.appendChild(reply);
-    msgs.scrollTop = msgs.scrollHeight;
-  }, 1100);
-}
-el("chatInput")?.addEventListener("keypress", e=>{ if(e.key==="Enter") sendChat() });
-
-/* ============================================
-   TOAST
-   ============================================ */
-let toastT;
-function toast(msg, cb){
-  const t = el("toast");
-  el("toastMsg").innerHTML = msg;
-  t.classList.add("show");
-  clearTimeout(toastT);
-  toastT = setTimeout(()=>{
-    t.classList.remove("show");
-    if(cb) cb();
-  }, 1600);
-}
-
-/* ============================================
-   DEMO TRIGGERS — show an incoming request randomly
-   ============================================ */
-setTimeout(()=>{
-  if(state.currentTab === "home" && !document.querySelector(".screen.modal.active")){
-    openModal("request");
-  }
-}, 4500);
 </script>
+
+<!-- Vercel Web Analytics -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+<!-- Vercel Speed Insights -->
+<script>
+  window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+
 </body>
 </html>
