@@ -1643,6 +1643,33 @@ footer .meta .made{color:var(--brand)}
 /* ============== Google Apps Script endpoint ============== */
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbyq5Yy6A0sdtrTTN_i7StIT9fmLbCdDOsYC-23wgq00geZgbqYj06ar5yX5oCXTWEZ-/exec';
 
+/* ============== UTM / referrer attribution ============== */
+const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid'];
+const ATTR_KEY = 'hamkketada_attr';
+
+function captureAttribution(){
+  try{
+    const params = new URLSearchParams(window.location.search);
+    const fresh = {};
+    UTM_KEYS.forEach(k => { const v = params.get(k); if(v) fresh[k] = v.slice(0, 120); });
+    const stored = JSON.parse(sessionStorage.getItem(ATTR_KEY) || '{}');
+    const merged = Object.keys(fresh).length ? { ...stored, ...fresh } : stored;
+    if(!merged.landing_referrer){
+      merged.landing_referrer = (document.referrer || '').slice(0, 200);
+    }
+    if(!merged.landing_path){
+      merged.landing_path = (window.location.pathname + window.location.search).slice(0, 200);
+    }
+    sessionStorage.setItem(ATTR_KEY, JSON.stringify(merged));
+    return merged;
+  }catch(_){ return {}; }
+}
+const ATTRIBUTION = captureAttribution();
+function getAttribution(){
+  try{ return JSON.parse(sessionStorage.getItem(ATTR_KEY) || '{}'); }
+  catch(_){ return {}; }
+}
+
 /* ============== Toast ============== */
 const toast = document.getElementById('toast');
 const toastMsg = document.getElementById('toastMsg');
@@ -1688,12 +1715,26 @@ function bindForm(formId, emailId, regionId, consentId, statusId, btnId){
     btn.disabled = true;
     btn.innerHTML = '<span>등록 중…</span>';
 
+    const attr = getAttribution();
+    const sourceLabel = attr.utm_source
+      ? `landing|${attr.utm_source}/${attr.utm_medium || 'na'}/${attr.utm_campaign || 'na'}`
+      : 'landing';
+
     const payload = new URLSearchParams({
       email,
       region: region || 'unspecified',
-      source: 'landing',
+      source: sourceLabel,
       ts: new Date().toISOString(),
-      ua: navigator.userAgent.slice(0, 200)
+      ua: navigator.userAgent.slice(0, 200),
+      utm_source: attr.utm_source || '',
+      utm_medium: attr.utm_medium || '',
+      utm_campaign: attr.utm_campaign || '',
+      utm_term: attr.utm_term || '',
+      utm_content: attr.utm_content || '',
+      gclid: attr.gclid || '',
+      fbclid: attr.fbclid || '',
+      referrer: attr.landing_referrer || '',
+      landing_path: attr.landing_path || ''
     });
 
     try{
@@ -1703,6 +1744,16 @@ function bindForm(formId, emailId, regionId, consentId, statusId, btnId){
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: payload.toString()
       });
+      try{
+        if(typeof window.va === 'function'){
+          window.va('event', { name: 'signup', data: {
+            utm_source: attr.utm_source || '(direct)',
+            utm_medium: attr.utm_medium || '(none)',
+            utm_campaign: attr.utm_campaign || '(none)',
+            region: region || 'unspecified'
+          }});
+        }
+      }catch(_){}
       statusEl.className = 'form-status ok';
       statusEl.textContent = '✓ 사전등록 완료! 출시 안내 메일을 곧 보내드릴게요.';
       showToast('사전등록이 완료되었어요. 메일함을 확인해 주세요.', 'ok');
