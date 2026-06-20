@@ -206,6 +206,29 @@ input,select,textarea{font-family:inherit}
 }
 .sb-cta .btn{flex:1}
 
+.match-opt{
+  margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;
+  display:grid;gap:10px;
+}
+.match-opt .row{display:flex;align-items:center;gap:10px}
+.match-opt .lbl{
+  font-size:10px;font-weight:800;letter-spacing:.12em;
+  color:var(--mute);min-width:62px;
+}
+.match-opt .opts{display:flex;gap:6px;flex:1}
+.opt-chip{
+  flex:1;text-align:center;padding:9px 4px;border-radius:11px;
+  background:var(--paper);border:1px solid var(--line);
+  font-size:13px;font-weight:700;color:var(--ink-2);cursor:pointer;
+  transition:transform .12s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease;
+}
+.opt-chip:active{transform:scale(.97)}
+.opt-chip.on{
+  background:var(--kakao);border-color:var(--ink);color:var(--ink);
+  box-shadow:0 2px 0 var(--ink);
+}
+.match-opt .row.disabled{opacity:.35;pointer-events:none}
+
 .quick{padding:18px 20px 0}
 .quick h3{font-size:13px;color:var(--mute);font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between}
 .fav-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px}
@@ -374,10 +397,20 @@ input,select,textarea{font-family:inherit}
 .map-block .road.r2{left:14%;right:20%;top:64%;transform:rotate(5deg);height:4px;background:#444}
 .map-block .road.r3{width:90px;top:22%;right:10%;transform:rotate(58deg)}
 .map-block .route-line{
-  position:absolute;left:14%;right:18%;top:60%;height:3px;
-  background:repeating-linear-gradient(90deg,var(--signal) 0 8px,transparent 8px 14px);
-  transform:rotate(-12deg);
+  position:absolute;left:44%;top:54%;width:24%;height:4px;
+  background:var(--ink);border-radius:3px;
+  transform:rotate(-44deg);transform-origin:left center;
+  box-shadow:0 0 0 2px rgba(255,229,0,.35);
 }
+.map-block .walk-line{
+  position:absolute;height:2px;
+  background:repeating-linear-gradient(90deg,var(--mute) 0 5px,transparent 5px 10px);
+  transform-origin:left center;
+}
+.map-block .walk-line.w1{left:14%;top:80%;width:16%;transform:rotate(-40deg)}
+.map-block .walk-line.w2{left:28%;top:66%;width:11%;transform:rotate(-42deg)}
+.map-block .walk-line.w3{left:64%;top:38%;width:11%;transform:rotate(-50deg)}
+.map-block .walk-line.w4{left:64%;top:38%;width:16%;transform:rotate(-12deg)}
 .map-block .pin{position:absolute;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-100%);gap:4px}
 .map-block .pin .pip{width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid var(--ink);display:grid;place-items:center;font-size:12px;font-weight:700;box-shadow:3px 3px 0 var(--ink)}
 .map-block .pin .pip span{transform:rotate(45deg)}
@@ -386,6 +419,7 @@ input,select,textarea{font-family:inherit}
 .map-block .pin.mate .pip{background:#fff}
 .map-block .pin.via .pip{background:var(--mint);color:#fff}
 .map-block .pin.dest .pip{background:var(--ink);color:var(--kakao)}
+.map-block .pin.mate-dest .pip{background:#fff;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
 
 .cf-sheet{flex:1;background:var(--paper);border-top-left-radius:24px;border-top-right-radius:24px;margin-top:-20px;position:relative;padding:14px 0 18px;overflow-y:auto}
 .cf-sheet h2{padding:0 20px;font-size:18px;font-weight:800;margin-top:8px}
@@ -781,8 +815,38 @@ input,select,textarea{font-family:inherit}
             <div class="ix"><div class="pip dest"></div></div>
             <div class="ph" id="destPh" style="color:#b8b5ad">어디로 가세요?</div>
           </div>
+
+          <div class="match-opt" id="matchOpt">
+            <div class="row radius-row" data-kind="origin">
+              <div class="lbl">출발 반경</div>
+              <div class="opts">
+                <button class="opt-chip on" data-r="50"  onclick="setOriginRadius(50)">50m</button>
+                <button class="opt-chip"    data-r="100" onclick="setOriginRadius(100)">100m</button>
+                <button class="opt-chip"    data-r="150" onclick="setOriginRadius(150)">150m</button>
+                <button class="opt-chip"    data-r="200" onclick="setOriginRadius(200)">200m</button>
+              </div>
+            </div>
+            <div class="row radius-row" data-kind="dest">
+              <div class="lbl">도착 반경</div>
+              <div class="opts">
+                <button class="opt-chip on" data-r="50"  onclick="setDestRadius(50)">50m</button>
+                <button class="opt-chip"    data-r="100" onclick="setDestRadius(100)">100m</button>
+                <button class="opt-chip"    data-r="150" onclick="setDestRadius(150)">150m</button>
+                <button class="opt-chip"    data-r="200" onclick="setDestRadius(200)">200m</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="lbl">동승 인원</div>
+              <div class="opts">
+                <button class="opt-chip"    data-party="1" onclick="setParty(1)">1명 혼자</button>
+                <button class="opt-chip on" data-party="2" onclick="setParty(2)">2명</button>
+                <button class="opt-chip"    data-party="3" onclick="setParty(3)">3명</button>
+              </div>
+            </div>
+          </div>
+
           <div class="sb-cta">
-            <button class="btn primary block" onclick="startMatching()">함께 탈 사람 찾기 →</button>
+            <button class="btn primary block" id="matchCta" onclick="startMatching()">함께 탈 사람 찾기 →</button>
           </div>
         </div>
 
@@ -899,9 +963,9 @@ input,select,textarea{font-family:inherit}
       </div>
 
       <div class="mw-meta">
-        <div class="label">SCANNING · 50m RADIUS</div>
-        <h2 id="matchingTitle">주변에서 같은 방향<br/>동행을 찾고 있어요</h2>
-        <p id="matchingDesc">강남역 11번 출구 반경 50m 안에서<br/>용산역 방향 이용자를 탐색 중입니다.</p>
+        <div class="label" id="matchingLabel">SCANNING · ORIGIN 50m · DEST 50m</div>
+        <h2 id="matchingTitle">출발과 도착이 가까운<br/>동행을 찾고 있어요</h2>
+        <p id="matchingDesc">강남역 반경 50m + 용산역 반경 50m<br/>안의 이용자를 탐색 중입니다.</p>
         <div class="stat">
           <span>탐색 시간 <b id="elapsed">00:03</b></span>
           <span>발견된 후보 <b id="found">3</b>명</span>
@@ -926,16 +990,16 @@ input,select,textarea{font-family:inherit}
           <b id="matchCount">3건 발견</b>
         </div>
 
-        <div class="match-card best" onclick="pickMatch('김선호',4.9,'K',48,22,9200,6200)">
+        <div class="match-card best" onclick="pickMatch('김선호',4.9,'K',24,38,22,9200,6200)">
           <div class="mc-head">
             <div class="av">K</div>
-            <div class="name"><b>김선호</b><small>합류 48m · 인증 완료 · 동승 12회</small></div>
+            <div class="name"><b>김선호</b><small>합승까지 24m · 인증 완료 · 동승 12회</small></div>
             <div class="star">★ 4.9</div>
           </div>
           <div class="mc-detail">
-            <div class="d"><small>합류 거리</small><b>48m</b></div>
+            <div class="d"><small>합승 도보</small><b>24m</b></div>
+            <div class="d"><small>하차 도보</small><b>38m</b></div>
             <div class="d"><small>도착 ETA</small><b>22분</b></div>
-            <div class="d"><small>경로 우회</small><b>+2분</b></div>
           </div>
           <div class="mc-savings">
             <small>나의 분담금 / 절감액</small>
@@ -943,16 +1007,16 @@ input,select,textarea{font-family:inherit}
           </div>
         </div>
 
-        <div class="match-card" onclick="pickMatch('정유진',4.8,'J',32,24,8400,7000)">
+        <div class="match-card" onclick="pickMatch('정유진',4.8,'J',18,42,24,8400,7000)">
           <div class="mc-head">
             <div class="av" style="background:#fff">J</div>
-            <div class="name"><b>정유진</b><small>합류 32m · 인증 완료 · 동승 28회</small></div>
+            <div class="name"><b>정유진</b><small>합승까지 18m · 인증 완료 · 동승 28회</small></div>
             <div class="star">★ 4.8</div>
           </div>
           <div class="mc-detail">
-            <div class="d"><small>합류 거리</small><b>32m</b></div>
+            <div class="d"><small>합승 도보</small><b>18m</b></div>
+            <div class="d"><small>하차 도보</small><b>42m</b></div>
             <div class="d"><small>도착 ETA</small><b>24분</b></div>
-            <div class="d"><small>경로 우회</small><b>+4분</b></div>
           </div>
           <div class="mc-savings">
             <small>나의 분담금 / 절감액</small>
@@ -960,16 +1024,16 @@ input,select,textarea{font-family:inherit}
           </div>
         </div>
 
-        <div class="match-card" onclick="pickMatch('이도현',4.7,'L',45,26,7600,7800)">
+        <div class="match-card" onclick="pickMatch('이도현',4.7,'L',36,51,26,7600,7800)">
           <div class="mc-head">
             <div class="av" style="background:#DFF7F0">L</div>
-            <div class="name"><b>이도현</b><small>합류 45m · 인증 완료 · 동승 6회</small></div>
+            <div class="name"><b>이도현</b><small>합승까지 36m · 인증 완료 · 동승 6회</small></div>
             <div class="star">★ 4.7</div>
           </div>
           <div class="mc-detail">
-            <div class="d"><small>합류 거리</small><b>45m</b></div>
+            <div class="d"><small>합승 도보</small><b>36m</b></div>
+            <div class="d"><small>하차 도보</small><b>51m</b></div>
             <div class="d"><small>도착 ETA</small><b>26분</b></div>
-            <div class="d"><small>경로 우회</small><b>+6분</b></div>
           </div>
           <div class="mc-savings">
             <small>나의 분담금 / 절감액</small>
@@ -994,37 +1058,50 @@ input,select,textarea{font-family:inherit}
         <div class="road r1"></div>
         <div class="road r2"></div>
         <div class="road r3"></div>
+        <div class="walk-line w1"></div>
+        <div class="walk-line w2"></div>
         <div class="route-line"></div>
-        <div class="pin me" style="left:18%;top:62%"><div class="pip"><span>나</span></div><div class="nm">강남역</div></div>
-        <div class="pin mate" style="left:34%;top:55%"><div class="pip"><span id="mateAvatar">K</span></div><div class="nm" id="mateName">김선호</div></div>
-        <div class="pin via" style="left:56%;top:38%"><div class="pip"><span>1</span></div><div class="nm">경유</div></div>
-        <div class="pin dest" style="left:80%;top:24%"><div class="pip"><span>도</span></div><div class="nm">용산역</div></div>
+        <div class="walk-line w3"></div>
+        <div class="walk-line w4"></div>
+        <div class="pin me"   style="left:14%;top:82%"><div class="pip"><span>나</span></div><div class="nm">나 출발</div></div>
+        <div class="pin mate" style="left:28%;top:68%"><div class="pip"><span id="mateAvatar">K</span></div><div class="nm" id="mateName">김선호</div></div>
+        <div class="pin via"  style="left:44%;top:58%"><div class="pip"><span>합</span></div><div class="nm">합승 지점</div></div>
+        <div class="pin via"  style="left:64%;top:38%"><div class="pip"><span>하</span></div><div class="nm">하차 지점</div></div>
+        <div class="pin dest" style="left:80%;top:22%"><div class="pip"><span>나</span></div><div class="nm">나 도착</div></div>
+        <div class="pin dest mate-dest" style="left:92%;top:34%"><div class="pip"><span id="mateAvatar2">K</span></div><div class="nm" id="mateDestName">상대 도착</div></div>
       </div>
 
       <div class="cf-sheet">
         <div class="kbd-handle"></div>
         <h2>매칭이 확정되었어요</h2>
-        <p class="lead"><b id="confirmMate">김선호</b>님과 함께 갑니다 · 예상 18분 · 12.4km</p>
+        <p class="lead"><b id="confirmMate">김선호</b>님과 중간지점에서 합승 · 예상 18분 · 12.4km</p>
 
         <div class="route-list">
           <div class="r-step">
             <div class="vl"></div>
             <div class="dt"><div class="p"></div></div>
-            <div class="info"><b>강남역 11번 출구</b><small>09:42 합류 · 출발지</small>
-              <span class="chip mint" style="margin-top:6px">나 · 출발</span></div>
+            <div class="info"><b>나 출발지 · 강남역 11번 출구</b><small id="meetWalkLabel">합승 지점까지 24m 도보 · 약 1분</small>
+              <span class="chip mint" style="margin-top:6px">나 · 도보</span></div>
             <div class="km">0.0km</div>
           </div>
           <div class="r-step">
             <div class="vl"></div>
             <div class="dt"><div class="p via"></div></div>
-            <div class="info"><b id="viaName">한강대로 · 김선호님 하차</b><small>09:55 도착 · 경유 1</small>
-              <span class="chip" style="margin-top:6px" id="mateChip">K · 하차</span></div>
-            <div class="km">8.6km</div>
+            <div class="info"><b>합승 지점 · 강남대로 23</b><small>09:43 합승 · 택시 승차</small>
+              <span class="chip" style="margin-top:6px" id="mateChip">나 + <span id="meetMateName">K</span> 동승</span></div>
+            <div class="km">0.0km</div>
+          </div>
+          <div class="r-step">
+            <div class="vl"></div>
+            <div class="dt"><div class="p via"></div></div>
+            <div class="info"><b>하차 지점 · 한강대로 45</b><small>10:00 하차 · 택시 하차</small>
+              <span class="chip yellow" style="margin-top:6px">동시 하차</span></div>
+            <div class="km">12.4km</div>
           </div>
           <div class="r-step">
             <div class="dt"><div class="p end"></div></div>
-            <div class="info"><b>용산역 1번 출구</b><small>10:00 도착 · 최종 목적지</small>
-              <span class="chip yellow" style="margin-top:6px">나 · 하차</span></div>
+            <div class="info"><b>나 도착지 · 용산역 1번 출구</b><small id="dropWalkLabel">하차 지점에서 38m 도보 · 약 1분</small>
+              <span class="chip" style="margin-top:6px">나 · 도보</span></div>
             <div class="km">12.4km</div>
           </div>
         </div>
@@ -1565,6 +1642,9 @@ const state = {
   emergencyTimer:null,
   reqTimer:null,
   matchingTimer:null,
+  radiusOrigin:50,
+  radiusDest:50,
+  party:2,
 };
 
 const screens = ["home","search","matching","matches","confirm","payment","ride","complete","activity","chat","notify","profile"];
@@ -1634,12 +1714,43 @@ function pickPlace(label, val, km){
   state.history = ["home"];
 }
 
+function setRadiusFor(kind, r){
+  if(kind === 'origin') state.radiusOrigin = r;
+  else state.radiusDest = r;
+  document.querySelectorAll(`.radius-row[data-kind="${kind}"] .opt-chip`).forEach(c=>{
+    c.classList.toggle('on', Number(c.dataset.r) === r);
+  });
+}
+function setOriginRadius(r){ setRadiusFor('origin', r); }
+function setDestRadius(r){ setRadiusFor('dest', r); }
+
+function setParty(p){
+  state.party = p;
+  document.querySelectorAll('.opt-chip[data-party]').forEach(c=>{
+    c.classList.toggle('on', Number(c.dataset.party) === p);
+  });
+  const cta = el('matchCta');
+  const isSolo = p === 1;
+  cta.innerHTML = isSolo ? '혼자 택시 호출 →' : '함께 탈 사람 찾기 →';
+  document.querySelectorAll('.radius-row').forEach(row=>{
+    row.classList.toggle('disabled', isSolo);
+  });
+}
+
 function startMatching(){
   if(!state.destination){
     toast("목적지를 먼저 입력해주세요");
     return goto("search","to");
   }
-  el("matchingDesc").innerHTML = state.origin + " 반경 50m 안에서<br/>" + state.destination + " 방향 이용자를 탐색 중입니다.";
+  if(state.party === 1){
+    toast("단독 호출로 연결합니다");
+    setTimeout(()=>goto("ride"), 600);
+    return;
+  }
+  const ro = state.radiusOrigin, rd = state.radiusDest;
+  el("matchingLabel").textContent = `SCANNING · ORIGIN ${ro}m · DEST ${rd}m`;
+  el("matchingDesc").innerHTML =
+    `${state.origin} 반경 ${ro}m + ${state.destination} 반경 ${rd}m<br/>안의 이용자를 탐색 중입니다.`;
   goto("matching");
 }
 
@@ -1669,13 +1780,16 @@ function cancelMatching(){
 /* ============================================
    MATCH PICK → CONFIRM
    ============================================ */
-function pickMatch(name, star, av, dist, eta, fare, save){
-  state.selectedMate = {name, star, av, dist, eta, fare, save};
+function pickMatch(name, star, av, meet, drop, eta, fare, save){
+  state.selectedMate = {name, star, av, meet, drop, eta, fare, save};
   el("confirmMate").textContent = name;
   el("mateName").textContent = name;
   el("mateAvatar").textContent = av;
-  el("viaName").textContent = "한강대로 · " + name + "님 하차";
-  el("mateChip").textContent = av + " · 하차";
+  const mateAvatar2 = el("mateAvatar2");           if(mateAvatar2) mateAvatar2.textContent = av;
+  const mateDestName = el("mateDestName");         if(mateDestName) mateDestName.textContent = name + " 도착";
+  const meetMateName = el("meetMateName");         if(meetMateName) meetMateName.textContent = name;
+  const meetWalkLabel = el("meetWalkLabel");       if(meetWalkLabel) meetWalkLabel.textContent = `합승 지점까지 ${meet}m 도보 · 약 ${Math.max(1,Math.round(meet/60))}분`;
+  const dropWalkLabel = el("dropWalkLabel");       if(dropWalkLabel) dropWalkLabel.textContent = `하차 지점에서 ${drop}m 도보 · 약 ${Math.max(1,Math.round(drop/60))}분`;
   el("mateSplit").innerHTML = name + "<br/><b>₩ " + fare.toLocaleString() + "</b>";
   el("mateInPay").textContent = name;
   goto("confirm");
